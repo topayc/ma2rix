@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.AdminMapper">
+	<select id="getAdminCount"  resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_ADMIN
+		]]>
+	</select>
+	
+	<select id="getAllAdminList"  resultType="com.ma2rix.music.model.domain.Admin">
+		<![CDATA[
+			SELECT
+				ADMIN_NO  				AS adminNo    			  ,
+				ADMIN_USERID			AS adminUserId			  ,
+				ADMIN_NAME				AS adminName			  ,
+				ADMIN_PWD				AS adminPwd				  ,
+				ADMIN_STATUS			AS adminStatus			  ,
+				REG_ADMIN_NO			AS regAdminNo			  ,
+				REG_DATETIME			AS regDateTime			  ,
+				MOD_ADMIN_NO			AS mod_admin_no			  ,
+				MOD_DATETIME			AS modDateTime			  	
+			FROM
+				TBL_ADMIN
+		]]>	
+	</select>
+	
+	<select id="getAdminAdminNo"  parameterType = "int" resultType="com.ma2rix.music.model.domain.Admin">
+		<![CDATA[
+			SELECT
+				ADMIN_NO  				AS adminNo    			  ,
+				ADMIN_USERID			AS adminUserId			  ,
+				ADMIN_NAME				AS adminName			  ,
+				ADMIN_PWD				AS adminPwd				  ,
+				ADMIN_STATUS			AS adminStatus			  ,
+				REG_ADMIN_NO			AS regAdminNo			  ,
+				REG_DATETIME			AS regDateTime			  ,
+				MOD_ADMIN_NO			AS mod_admin_no			  ,
+				MOD_DATETIME			AS modDateTime			  	
+			FROM
+				TBL_ADMIN
+			WHERE
+				ADMIN_NO  = #{adminNo}
+		]]>	
+	</select>
+	
+	<insert id="insertAdmin" parameterType ="com.ma2rix.music.model.domain.Admin" >
+		<![CDATA[
+			INSERT INTO
+				TBL_admin
+			(
+				ADMIN_USERID			,
+				ADMIN_NAME				,
+				ADMIN_PWD				,
+				ADMIN_STATUS			,
+				REG_ADMIN_NO			,
+				REG_DATETIME			,
+				MOD_ADMIN_NO			,
+				MOD_DATETIME			
+			)
+			VALUES
+			(
+				#{adminUserId}			,
+				#{adminName}			,
+				#{adminPwd}				,
+				#{adminStatus}			,
+				#{regAdminNo}			,
+				NOW()					,
+				#{modAdminNo}			,
+				NOW()								
+			)
+		]]>
+
+		<selectKey keyProperty="adminNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<delete id="deleteAdmin" parameterType ="int" >
+		<![CDATA[
+			DELETE FROM
+				TBL_ADMIN
+			WHERE
+				AdMIN_NO	= #{adminNo}
+		]]>
+	</delete>
+
+	<update id="updateAdmin" parameterType ="com.ma2rix.music.model.domain.Admin" >
+		<![CDATA[
+			UPDATE
+				TBL_admin
+			SET
+				ADMIN_USERID  		= #{adminUserId}		,
+				ADMIN_NAME			= #{adminName}			,
+				ADMIN_PWD 			= #{adminPwd}			,
+				ADMIN_STATUS		= #{adminStatus}		,
+			WHERE
+				ADMIN_NO	= #{adminNo}
+		]]>
+	</update>
+
+
+</mapper>

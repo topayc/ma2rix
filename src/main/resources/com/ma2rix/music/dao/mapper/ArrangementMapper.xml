@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.ArrangementMapper">
+
+	<select id="getArrangementCount" parameterType="int" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_ARRANGEMENT
+		]]>
+		<if test="genreNo != null">
+			WHERE GENRE_NO = #{genreNo}
+		</if>
+	</select>
+
+	<!-- 편곡 리스트 -->
+	<select id="getArrangementCommandList"    resultType="com.ma2rix.music.model.command.ArrangementCommand" >
+			SELECT
+				T1.ARRANGE_NO										AS arrangeNo			,	/* 편곡번호 */
+				T1.COMPOSE_NO										AS composeNo			,	/* 작곡번호 */
+				T1.ARRANGE_MEMBER_NO								AS arrangeMemberNo		,	/* 편곡자회원번호 */
+				T2.MEMBER_NAME										AS arrangeMemberName	,	/* 편곡자회원명 */
+				T2.MEMBER_NICKNAME									AS arrangeMemberNickName,	/* 편곡자회원닉네임 */
+				T1.ARRANGE_TITLE									AS arrangeTitle			,	/* 편곡제목 */
+				T1.GENRE_NO											AS genreNo				,	/* 쟝르번호 */
+				T3.GENRE_NAME										AS genreName			,	/* 쟝르명 */
+				T1.OPEN_STATUS										AS openStatus			,	/* 보컬공개여부 */
+				T1.COMPOSE_RATE										AS composeRate			,	/* 작곡배분율 */
+				T1.ARRANGE_RATE										AS arrangeRate			,	/* 편곡배분율 */
+				T1.LYRICS_RATE										AS lyricsRate			,	/* 작사배분율 */
+				T1.VOCAL_RATE										AS vocalRate			,	/* 보컬배분율 */
+				T1.ARRANGE_MEMO										AS arrangeMemo			,	/* 편곡 메모 */
+				T1.LIMIT_COUNT										AS limitCount			,	/* 배포제한수 */
+				T1.VOCAL_COUNT										AS vocalCount			,	/* 보컬수 */
+				T1.FAN_COUNT										AS fanCount				,	/* 팬수 */
+				T1.LYRICS_COUNT										AS lyricsCount			,	/* 작사수 */
+				T1.PERFORM_COUNT									AS performCount			,	/* 연주수 */
+				T1.ARRANGE_HITS										AS arrangeHits			,	/* 조회수 */
+				T1.ARRANGE_IMAGE									AS arrangeImage			,	/* 편곡이미지파일 */
+				CONCAT(T4.WEB_PATH,  T4.FILE_NAME2)					AS arrangeImageWeb		,	/* 편곡이미지파일 Web Path */
+				CONCAT(T4.FILE_PATH, T4.FILE_NAME2)					AS arrangeImageFile		,	/* 편곡이미지파일 Local Path */
+				T1.ARRANGE_SCORE									AS arrangeScore			,	/* 악보파일 */
+				CONCAT(T5.WEB_PATH,  T5.FILE_NAME2)					AS arrangeScoreWeb		,	/* 악보파일 Web Path */
+				CONCAT(T5.FILE_PATH, T5.FILE_NAME2)					AS arrangeScoreFile		,	/* 악보파일 Local Path */
+				T1.ARRANGE_SOUND									AS arrangeSound			,	/* 음원파일 */           
+				CONCAT(T6.WEB_PATH,  T6.FILE_NAME2)					AS arrangeSoundWeb		,	/* 음원파일 Web Path */  
+				CONCAT(T6.FILE_PATH, T6.FILE_NAME2)					AS arrangeSoundFile		,	/* 음원파일 Local Path */
+				GET_SOUND_FILE(T6.WEB_PATH,  T6.FILE_NAME2, 'mp3')	AS arrangeSoundMp3		,	/* 음원파일 mp3 Path */
+				GET_SOUND_FILE(T6.WEB_PATH,  T6.FILE_NAME2, 'ogg')	AS arrangeSoundOgg		,	/* 음원파일 ogg Path */
+				GET_SOUND_FILE(T6.WEB_PATH,  T6.FILE_NAME2, 'png')	AS arrangeSoundPng		,	/* 음원파일 pbg Path */
+				T1.GUIDE_SOUND										AS guideSound			,	/* 가이드음원파일 */           
+				CONCAT(T7.WEB_PATH,  T7.FILE_NAME2)					AS guideSoundWeb		,	/* 가이드음원파일 Web Path */  
+				CONCAT(T7.FILE_PATH, T7.FILE_NAME2)					AS guideSoundFile		,	/* 가이드음원파일 Local Path */
+				GET_SOUND_FILE(T7.WEB_PATH,  T7.FILE_NAME2, 'mp3')	AS guideSoundMp3		,	/* 가이드음원파일 mp3 Path */  
+				GET_SOUND_FILE(T7.WEB_PATH,  T7.FILE_NAME2, 'ogg')	AS guideSoundOgg		,	/* 가이드음원파일 ogg Path */  
+				GET_SOUND_FILE(T7.WEB_PATH,  T7.FILE_NAME2, 'png')	AS guideSoundPng		,	/* 가이드음원파일 pbg Path */  
+				T1.ARRANGE_ZIP										AS arrangeZip			,	/* 기타파일 */           
+				CONCAT(T8.WEB_PATH,  T8.FILE_NAME2)					AS arrangeZipWeb		,	/* 기타파일 Web Path */  
+				CONCAT(T8.FILE_PATH, T8.FILE_NAME2)					AS arrangeZipFile		,	/* 기타파일 Local Path */  
+				T1.SALE_PRICE										AS salePrice			,	/* 판매가격 */
+				T1.LIMIT_STATUS										AS limitStatus			,	/* 배포제한여부 */
+				T1.CHARGE_STATUS									AS chargeStatus			,	/* 유료여부 */
+				T1.ARRANGE_STATUS									AS arrangeStatus		,	/* 편곡상태 */
+				T1.SALE_STATUS										AS saleStatus			,	/* 판매상태 */
+				DATE_FORMAT(T1.REG_DATETIME, '%Y-%m-%d %H:%i:%s')	AS regDatetime				/* 등록일시 */
+			FROM
+				TBL_ARRANGEMENT		AS T1
+			INNER JOIN
+				TBL_MEMBER			AS T2
+					ON (						
+							T2.MEMBER_NO	= T1.ARRANGE_MEMBER_NO
+					)
+			INNER JOIN 
+				TBL_GENRE			AS T3
+					ON (
+							T3.GENRE_NO		= T1.GENRE_NO
+						)			
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T4
+					ON (
+							T4.ATTACH_NO	= T1.ARRANGE_IMAGE
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T5
+					ON (
+							T5.ATTACH_NO	= T1.ARRANGE_SCORE
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T6
+					ON (
+							T6.ATTACH_NO	= T1.ARRANGE_SOUND
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T7
+					ON (
+							T7.ATTACH_NO	= T1.GUIDE_SOUND
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T8
+					ON (
+							T8.ATTACH_NO	= T1.ARRANGE_ZIP
+						)
+			WHERE
+				1 = 1
+		<if test="genreNo != 0">
+			AND
+			T1.GENRE_NO = #{genreNo}
+		</if>
+		<if test="arrangeStatus == 3">
+			AND
+			T1.ARRANGE_STATUS = #{arrangeStatus}   /* 편곡완료일때만 */
+		</if>
+		ORDER BY
+		<choose>
+			<when test="orderBy = 1">
+				T1.FAN_COUNT DESC
+			</when>
+			<when test="orderBy = 2">
+				T1.ARRANGE_NO DESC
+			</when>
+			<when test="orderBy = 3">
+				T1.VOCAL_COUNT DESC
+			</when>
+			<otherwise>
+				T1.ARRANGE_NO DESC
+			</otherwise>
+		</choose>
+		<if test="pageCount != 0">
+			LIMIT #{pageCount}, #{pageOffset}
+		</if>
+	</select>
+	
+		<!-- 편곡 리스트 -->
+	<select id="getAllArrangementCommandList"  resultType="com.ma2rix.music.model.command.ArrangementCommand">
+		<![CDATA[
+			SELECT
+				T1.ARRANGE_NO										AS arrangeNo			,	/* 편곡번호 */
+				T1.COMPOSE_NO										AS composeNo			,	/* 작곡번호 */
+				T1.ARRANGE_MEMBER_NO								AS arrangeMemberNo		,	/* 편곡자회원번호 */
+				T2.MEMBER_NAME										AS arrangeMemberName	,	/* 편곡자회원명 */
+				T2.MEMBER_NICKNAME									AS arrangeMemberNickName,	/* 편곡자회원닉네임 */
+				T1.ARRANGE_TITLE									AS arrangeTitle			,	/* 편곡제목 */
+				T1.GENRE_NO											AS genreNo				,	/* 쟝르번호 */
+				T3.GENRE_NAME										AS genreName			,	/* 쟝르명 */
+				T1.OPEN_STATUS										AS openStatus			,	/* 보컬공개여부 */
+				T1.COMPOSE_RATE										AS composeRate			,	/* 작곡배분율 */
+				T1.ARRANGE_RATE										AS arrangeRate			,	/* 편곡배분율 */
+				T1.LYRICS_RATE										AS lyricsRate			,	/* 작사배분율 */
+				T1.VOCAL_RATE										AS vocalRate			,	/* 보컬배분율 */
+				T1.ARRANGE_MEMO										AS arrangeMemo			,	/* 편곡 메모 */
+				T1.LIMIT_COUNT										AS limitCount			,	/* 배포제한수 */
+				T1.VOCAL_COUNT										AS vocalCount			,	/* 보컬수 */
+				T1.FAN_COUNT										AS fanCount				,	/* 팬수 */
+				T1.LYRICS_COUNT										AS lyricsCount			,	/* 작사수 */
+				T1.PERFORM_COUNT									AS performCount			,	/* 연주수 */
+				T1.ARRANGE_HITS										AS arrangeHits			,	/* 조회수 */
+				T1.ARRANGE_IMAGE									AS arrangeImage			,	/* 편곡이미지파일 */
+				CONCAT(T4.WEB_PATH,  T4.FILE_NAME2)					AS arrangeImageWeb		,	/* 편곡이미지파일 Web Path */
+				CONCAT(T4.FILE_PATH, T4.FILE_NAME2)					AS arrangeImageFile		,	/* 편곡이미지파일 Local Path */
+				T1.ARRANGE_SCORE									AS arrangeScore			,	/* 악보파일 */
+				CONCAT(T5.WEB_PATH,  T5.FILE_NAME2)					AS arrangeScoreWeb		,	/* 악보파일 Web Path */
+				CONCAT(T5.FILE_PATH, T5.FILE_NAME2)					AS arrangeScoreFile		,	/* 악보파일 Local Path */
+				T1.ARRANGE_SOUND									AS arrangeSound			,	/* 음원파일 */           
+				CONCAT(T6.WEB_PATH,  T6.FILE_NAME2)					AS arrangeSoundWeb		,	/* 음원파일 Web Path */  
+				CONCAT(T6.FILE_PATH, T6.FILE_NAME2)					AS arrangeSoundFile		,	/* 음원파일 Local Path */
+				GET_SOUND_FILE(T6.WEB_PATH,  T6.FILE_NAME2, 'mp3')	AS arrangeSoundMp3		,	/* 음원파일 mp3 Path */
+				GET_SOUND_FILE(T6.WEB_PATH,  T6.FILE_NAME2, 'ogg')	AS arrangeSoundOgg		,	/* 음원파일 ogg Path */
+				GET_SOUND_FILE(T6.WEB_PATH,  T6.FILE_NAME2, 'png')	AS arrangeSoundPng		,	/* 음원파일 pbg Path */
+				T1.GUIDE_SOUND										AS guideSound			,	/* 가이드음원파일 */           
+				CONCAT(T7.WEB_PATH,  T7.FILE_NAME2)					AS guideSoundWeb		,	/* 가이드음원파일 Web Path */  
+				CONCAT(T7.FILE_PATH, T7.FILE_NAME2)					AS guideSoundFile		,	/* 가이드음원파일 Local Path */
+				GET_SOUND_FILE(T7.WEB_PATH,  T7.FILE_NAME2, 'mp3')	AS guideSoundMp3		,	/* 가이드음원파일 mp3 Path */  
+				GET_SOUND_FILE(T7.WEB_PATH,  T7.FILE_NAME2, 'ogg')	AS guideSoundOgg		,	/* 가이드음원파일 ogg Path */  
+				GET_SOUND_FILE(T7.WEB_PATH,  T7.FILE_NAME2, 'png')	AS guideSoundPng		,	/* 가이드음원파일 pbg Path */  
+				T1.ARRANGE_ZIP										AS arrangeZip			,	/* 기타파일 */           
+				CONCAT(T8.WEB_PATH,  T8.FILE_NAME2)					AS arrangeZipWeb		,	/* 기타파일 Web Path */  
+				CONCAT(T8.FILE_PATH, T8.FILE_NAME2)					AS arrangeZipFile		,	/* 기타파일 Local Path */  
+				T1.SALE_PRICE										AS salePrice			,	/* 판매가격 */
+				T1.LIMIT_STATUS										AS limitStatus			,	/* 배포제한여부 */
+				T1.CHARGE_STATUS									AS chargeStatus			,	/* 유료여부 */
+				T1.ARRANGE_STATUS									AS arrangeStatus		,	/* 편곡상태 */
+				T1.SALE_STATUS										AS saleStatus			,	/* 판매상태 */
+				DATE_FORMAT(T1.REG_DATETIME, '%Y-%m-%d %H:%i:%s')	AS regDatetime				/* 등록일시 */
+			FROM
+				TBL_ARRANGEMENT		AS T1
+			INNER JOIN
+				TBL_MEMBER			AS T2
+					ON (
+							T2.MEMBER_NO	= T1.ARRANGE_MEMBER_NO
+						)
+			INNER JOIN 
+				TBL_GENRE			AS T3
+					ON (
+							T3.GENRE_NO		= T1.GENRE_NO
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T4
+					ON (
+							T4.ATTACH_NO	= T1.ARRANGE_IMAGE
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T5
+					ON (
+							T5.ATTACH_NO	= T1.ARRANGE_SCORE
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T6
+					ON (
+							T6.ATTACH_NO	= T1.ARRANGE_SOUND
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T7
+					ON (
+							T7.ATTACH_NO	= T1.GUIDE_SOUND
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T8
+					ON (
+							T8.ATTACH_NO	= T1.ARRANGE_ZIP
+						)
+			WHERE
+				1 = 1
+		]]>
+
+	</select>
+
+
+	<!-- 편곡 조회 -->
+	<select id="getArrangementCommandByArrangeNo" parameterType="int" resultType="com.ma2rix.music.model.command.ArrangementCommand">
+		
+			SELECT
+				T1.ARRANGE_NO										AS arrangeNo			,	/* 편곡번호 */
+				T1.COMPOSE_NO										AS composeNo			,	/* 작곡번호 */
+				T1.ARRANGE_MEMBER_NO								AS arrangeMemberNo		,	/* 편곡자회원번호 */
+				T2.MEMBER_NAME										AS arrangeMemberName	,	/* 편곡자회원명 */
+				T2.MEMBER_NICKNAME									AS arrangeMemberNickName,	/* 편곡자회원닉네임 */
+				T01.MEMBER_NAME										AS composeMemberName	,	/* 작곡자회원명 */
+				T01.MEMBER_NICKNAME									AS composeMemberNickName,	/* 작곡자회원닉네임 */
+				T1.ARRANGE_TITLE									AS arrangeTitle			,	/* 편곡제목 */
+				T1.GENRE_NO											AS genreNo				,	/* 쟝르번호 */
+				T3.GENRE_NAME										AS genreName			,	/* 쟝르명 */
+				T1.OPEN_STATUS										AS openStatus			,	/* 보컬공개여부 */
+				T1.COMPOSE_RATE										AS composeRate			,	/* 작곡배분율 */
+				T1.ARRANGE_RATE										AS arrangeRate			,	/* 편곡배분율 */
+				T1.LYRICS_RATE										AS lyricsRate			,	/* 작사배분율 */
+				T1.VOCAL_RATE										AS vocalRate			,	/* 보컬배분율 */
+				T1.LYRICS_RATE										AS lyricsRate			,	/* 작사배분율  */
+				T1.ARRANGE_MEMO										AS arrangeMemo			,	/* 편곡 메모 */
+				T0.COMPOSE_MEMO										AS composeMemo			,	/* 작곡 메모 */
+				T1.LIMIT_COUNT										AS limitCount			,	/* 배포제한수 */
+				T1.VOCAL_COUNT										AS vocalCount			,	/* 보컬수 */
+				T1.FAN_COUNT										AS fanCount				,	/* 팬수 */
+				T1.LYRICS_COUNT			   							AS LyricsCount			,	/* 작사수 */
+				T1.PERFORM_COUNT									AS PerformCount			,	/* 연주수 */
+				T1.ARRANGE_HITS										AS arrangeHits			,	/* 조회수 */
+				T1.ARRANGE_IMAGE									AS arrangeImage			,	/* 편곡이미지파일 */
+				CONCAT(T4.WEB_PATH,  T4.FILE_NAME2)					AS arrangeImageWeb		,	/* 편곡이미지파일 Web Path */
+				CONCAT(T4.FILE_PATH, T4.FILE_NAME2)					AS arrangeImageFile		,	/* 편곡이미지파일 Local Path */
+				T1.ARRANGE_SCORE									AS arrangeScore			,	/* 악보파일 */
+				CONCAT(T5.WEB_PATH,  T5.FILE_NAME2)					AS arrangeScoreWeb		,	/* 악보파일 Web Path */
+				CONCAT(T5.FILE_PATH, T5.FILE_NAME2)					AS arrangeScoreFile		,	/* 악보파일 Local Path */
+				T1.ARRANGE_SOUND									AS arrangeSound			,	/* 음원파일 */           
+				CONCAT(T6.WEB_PATH,  T6.FILE_NAME2)					AS arrangeSoundWeb		,	/* 음원파일 Web Path */  
+				CONCAT(T6.FILE_PATH, T6.FILE_NAME2)					AS arrangeSoundFile		,	/* 음원파일 Local Path */
+				GET_SOUND_FILE(T6.WEB_PATH,  T6.FILE_NAME2, 'mp3')	AS arrangeSoundMp3		,	/* 음원파일 mp3 Path */
+				GET_SOUND_FILE(T6.WEB_PATH,  T6.FILE_NAME2, 'ogg')	AS arrangeSoundOgg		,	/* 음원파일 ogg Path */
+				GET_SOUND_FILE(T6.WEB_PATH,  T6.FILE_NAME2, 'png')	AS arrangeSoundPng		,	/* 음원파일 pbg Path */
+				T1.GUIDE_SOUND										AS guideSound			,	/* 가이드음원파일 */           
+				CONCAT(T7.WEB_PATH,  T7.FILE_NAME2)					AS guideSoundWeb		,	/* 가이드음원파일 Web Path */  
+				CONCAT(T7.FILE_PATH, T7.FILE_NAME2)					AS guideSoundFile		,	/* 가이드음원파일 Local Path */
+				GET_SOUND_FILE(T7.WEB_PATH,  T7.FILE_NAME2, 'mp3')	AS guideSoundMp3		,	/* 가이드음원파일 mp3 Path */  
+				GET_SOUND_FILE(T7.WEB_PATH,  T7.FILE_NAME2, 'ogg')	AS guideSoundOgg		,	/* 가이드음원파일 ogg Path */  
+				GET_SOUND_FILE(T7.WEB_PATH,  T7.FILE_NAME2, 'png')	AS guideSoundPng		,	/* 가이드음원파일 pbg Path */  
+				T1.ARRANGE_ZIP										AS arrangeZip			,	/* 기타파일 */           
+				CONCAT(T8.WEB_PATH,  T8.FILE_NAME2)					AS arrangeZipWeb		,	/* 기타파일 Web Path */  
+				CONCAT(T8.FILE_PATH, T8.FILE_NAME2)					AS arrangeZipFile		,	/* 기타파일 Local Path */
+				T1.SALE_PRICE										AS salePrice			,	/* 판매가격 */
+				T1.LIMIT_STATUS										AS limitStatus			,	/* 배포제한여부 */
+				T1.CHARGE_STATUS									AS chargeStatus			,	/* 유료여부 */
+				T1.ARRANGE_STATUS									AS arrangeStatus		,	/* 편곡상태 */
+				T1.SALE_STATUS										AS saleStatus			,	/* 판매상태 */
+				DATE_FORMAT(T1.REG_DATETIME, '%Y-%m-%d %H:%i:%s')	AS regDatetime				/* 등록일시 */
+			FROM
+				TBL_ARRANGEMENT		AS T1
+			INNER JOIN
+				TBL_COMPOSITION		AS T0
+					ON (
+							T0.COMPOSE_NO	= T1.COMPOSE_NO
+						)
+			INNER JOIN
+				TBL_MEMBER			AS T01
+					ON (
+							T01.MEMBER_NO	= T0.COMPOSE_MEMBER_NO
+						)
+			INNER JOIN
+				TBL_MEMBER			AS T2
+					ON (
+							T2.MEMBER_NO	= T1.ARRANGE_MEMBER_NO
+						)
+			LEFT OUTER JOIN
+				TBL_GENRE			AS T3
+					ON (
+							T3.GENRE_NO		= T1.GENRE_NO
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T4
+					ON (
+							T4.ATTACH_NO	= T1.ARRANGE_IMAGE
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T5
+					ON (
+							T5.ATTACH_NO	= T1.ARRANGE_SCORE
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T6
+					ON (
+							T6.ATTACH_NO	= T1.ARRANGE_SOUND
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T7
+					ON (
+							T7.ATTACH_NO	= T1.GUIDE_SOUND
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T8
+					ON (
+							T8.ATTACH_NO	= T1.ARRANGE_ZIP
+						)
+			WHERE
+				T1.ARRANGE_NO	= #{arrangeNo}
+		
+	</select>
+	
+	<!-- 편곡 조회 -->
+	<select id="getArrangementByArrangeNo" parameterType="int" resultType="com.ma2rix.music.model.domain.Arrangement">
+		<![CDATA[
+			SELECT
+				ARRANGE_NO									 		AS arrangeNo			,	/* 편곡번호 */
+				COMPOSE_NO											AS composeNo			,	/* 작곡번호 */
+				ARRANGE_MEMBER_NO									AS arrangeMemberNo		,	/* 편곡자회원번호 */
+				ARRANGE_TITLE										AS arrangeTitle			,	/* 편곡제목 */
+				GENRE_NO											AS genreNo				,	/* 쟝르번호 */
+				OPEN_STATUS											AS openStatus			,	/* 보컬공개여부 */
+				COMPOSE_RATE										AS composeRate			,	/* 작곡배분율 */
+				ARRANGE_RATE										AS arrangeRate			,	/* 편곡배분율 */
+				VOCAL_RATE											AS vocalRate			,	/* 보컬배분율 */
+				LYRICS_RATE											AS lyricsRate			,	/* 작사배분율 */
+				ARRANGE_MEMO										AS arrangeMemo			,	/* 편곡 메모 */
+				LIMIT_COUNT											AS limitCount			,	/* 배포제한수 */
+				VOCAL_COUNT											AS vocalCount			,	/* 보컬수 */
+				FAN_COUNT											AS fanCount				,	/* 팬수 */
+				LYRICS_COUNT			   							AS LyricsCount			,	/* 작사수 */
+				PERFORM_COUNT										AS PerformCount			,	/* 연주수 */
+				ARRANGE_HITS										AS arrangeHits			,	/* 조회수 */
+				ARRANGE_IMAGE										AS arrangeImage			,	/* 편곡이미지파일 */
+				ARRANGE_SCORE										AS arrangeScore			,	/* 악보파일 */
+				ARRANGE_ZIP									    	AS arrangeZip			,	/* 기타 파일 */
+				ARRANGE_SOUND										AS arrangeSound			,	/* 음원파일 */           
+				GUIDE_SOUND											AS guideSound			,	/* 가이드음원파일 */           
+				SALE_PRICE											AS salePrice			,	/* 판매가격 */
+				LIMIT_STATUS										AS limitStatus			,	/* 배포제한여부 */
+				CHARGE_STATUS										AS chargeStatus			,	/* 유료여부 */
+				ARRANGE_STATUS										AS arrangeStatus		,	/* 편곡상태 */
+				SALE_STATUS											AS saleStatus			,	/* 판매상태 */
+				REg_DATETIME										AS regDateTime				/* 등록일시 */
+			FROM
+				TBL_ARRANGEMENT
+			
+			WHERE
+				ARRANGE_NO	= #{arrangeNo}
+		]]>
+	</select>
+
+	<!-- 편곡 등록 -->
+	<insert id="insertArrangement" parameterType="com.ma2rix.music.model.domain.Arrangement">
+		<![CDATA[
+			INSERT INTO
+				TBL_ARRANGEMENT
+			(
+				COMPOSE_NO			,	/* 작곡번호 */
+				ARRANGE_MEMBER_NO	,	/* 편곡자회원번호 */
+				ARRANGE_TITLE		,	/* 편곡제목 */
+				GENRE_NO			,	/* 쟝르번호 */
+				OPEN_STATUS			,	/* 보컬공개여부 */
+				COMPOSE_RATE		,	/* 작곡배분율 */
+				ARRANGE_RATE		,	/* 편곡배분율 */
+				LYRICS_RATE			,	/* 편곡배분율 */
+				VOCAL_RATE			,	/* 보컬배분율 */
+				ARRANGE_MEMO		,	/* 편곡 메모 */
+				LIMIT_COUNT			,	/* 배포제한수 */
+				VOCAL_COUNT			,	/* 보컬수 */
+				FAN_COUNT			,	/* 팬수 */
+				LYRICS_COUNT		,	/* 작사수 */
+				PERFORM_COUNT		,	/* 연주수 */
+				ARRANGE_HITS		,	/* 조회수 */
+				ARRANGE_IMAGE		,	/* 편곡이미지파일 */
+				ARRANGE_SCORE		,   /* 악보파일 */
+				ARRANGE_SOUND		,	/* 음원파일 */
+				GUIDE_SOUND			,   /* 가이드음원파일 */
+				ARRANGE_ZIP			,   /* 기타파일 */
+				SALE_PRICE			,	/* 판매가격 */    
+				LIMIT_STATUS		,	/* 배포제한여부 */
+				CHARGE_STATUS		,	/* 유료여부 */
+				ARRANGE_STATUS		,	/* 편곡상태 */
+				SALE_STATUS			,	/* 판매상태 */
+				REG_ADMIN_NO		,	/* 등록자 */
+				REG_DATETIME		,	/* 등록일시 */
+				MOD_ADMIN_NO		,
+				MOD_DATETIME
+			)
+			VALUES
+			(
+				#{composeNo}		,	/* 작곡번호 */      
+				#{arrangeMemberNo}	,	/* 편곡자회원번호 */
+				#{arrangeTitle}		,	/* 편곡제목 */      
+				#{genreNo}			,	/* 쟝르번호 */      
+				#{openStatus}		,	/* 보컬공개여부 */  
+				#{composeRate}		,	/* 작곡배분율 */    
+				#{arrangeRate}		,	/* 편곡배분율 */    
+				#{lyricsRate}		,   /* 작사배분율 */
+				#{vocalRate}		,	/* 보컬배분율 */    
+				#{arrangeMemo}		,	/* 편곡 메모 */     
+				#{limitCount}		,	/* 배포제한수 */    
+				#{vocalCount}		,	/* 보컬수 */       
+				#{fanCount}			,	/* 팬수 */         
+				#{lyricsCount}		,	/* 작사수 */       
+				#{performCount}		,	/* 연주수 */       
+				#{arrangeHits}		,	/* 조회수 */       
+				#{arrangeImage}		,	/* 편곡이미지파일 */
+				#{arrangeScore}		,   /* 악보파일 */      
+				#{arrangeSound}		,	/* 음원파일 */      
+				#{guideSound}		,   /* 가이드음원파일 */
+				#{arrangeZip}		,	/* 기타파일 */ 
+				#{salePrice}		,	/* 판매가격 */      
+				#{limitStatus}		,	/* 배포제한여부 */  
+				#{chargeStatus}		,	/* 유료여부 */      
+				#{arrangeStatus}	,	/* 편곡상태 */      
+				#{saleStatus}		,	/* 판매상태 */      
+				#{regAdminNo}		,	/* 등록자 */       
+				NOW()				,	/* 등록일시 */  
+				#{modAdminNo}		,
+				NOW()    
+			)
+		]]>
+
+		<selectKey keyProperty="arrangeNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<!-- 편곡 수정 -->
+	<update id="updateArrangement" parameterType="com.ma2rix.music.model.domain.Arrangement">
+			UPDATE
+				TBL_ARRANGEMENT
+			SET
+				COMPOSE_NO			= #{composeNo}			,	/* 작곡번호 */     
+				ARRANGE_MEMBER_NO	= #{arrangeMemberNo}	,	/* 편곡자회원번호 */
+				ARRANGE_TITLE		= #{arrangeTitle}		,	/* 편곡제목 */     
+				GENRE_NO			= #{genreNo}			,	/* 쟝르번호 */     
+				OPEN_STATUS			= #{openStatus}			,	/* 보컬공개여부 */ 
+				COMPOSE_RATE		= #{composeRate}		,	/* 작곡배분율 */   
+				ARRANGE_RATE		= #{arrangeRate}		,	/* 편곡배분율 */   
+				LYRICS_RATE			= #{lyricsRate}			,	/* 작사배분율 */
+				VOCAL_RATE			= #{vocalRate}			,	/* 보컬배분율 */   
+				ARRANGE_MEMO		= #{arrangeMemo}		,	/* 편곡 메모 */    
+				LIMIT_COUNT			= #{limitCount}			,	/* 배포제한수 */   
+				VOCAL_COUNT			= #{vocalCount}			,	/* 보컬수 */      
+				FAN_COUNT			= #{fanCount}			,	/* 팬수 */        
+				LYRICS_COUNT		= #{lyricsCount}		,	/* 작사수 */      
+				PERFORM_COUNT		= #{performCount}		,	/* 연주수 */      
+				ARRANGE_HITS		= #{arrangeHits}		,	/* 조회수 */      
+				ARRANGE_IMAGE		= #{arrangeImage}		,	/* 편곡이미지파일 */      
+				ARRANGE_SCORE		= #{arrangeScore}		,   /* 악보파일 */     
+				ARRANGE_SOUND		= #{arrangeSound}		,	/* 음원파일 */     
+				GUIDE_SOUND			= #{guideSound}			,   /* 가이드음원파일 */
+				ARRANGE_ZIP			= #{arrangeZip}			,	/* 기타파일 */
+				SALE_PRICE			= #{salePrice}			,	/* 판매가격 */     
+				LIMIT_STATUS		= #{limitStatus}		,	/* 배포제한여부 */ 
+				CHARGE_STATUS		= #{chargeStatus}		,	/* 유료여부 */     
+				ARRANGE_STATUS		= #{arrangeStatus}		,	/* 편곡상태 */     
+				SALE_STATUS			= #{saleStatus}			,	/* 판매상태 */     
+				MOD_ADMIN_NO		= #{modAdminNo}		,	/* 수정자 */      
+				MOD_DATETIME		= NOW()						/* 수정일시 */      
+			WHERE
+				ARRANGE_NO	= #{arrangeNo}
+		
+	</update>
+
+	<!-- 편곡 삭제 -->
+	<delete id="deleteArrangement" parameterType="int">
+		<![CDATA[
+			DELETE FROM
+				TBL_ARRANGEMENT
+			WHERE
+				ARRANGE_NO	= #{arrangeNo}
+		]]>
+	</delete>
+
+	<!-- 연주 조회 -->
+	<select id="getPerformanceCommandsByArrangeNo" parameterType="int"
+		resultType="com.ma2rix.music.model.command.PerformanceCommand">
+		<![CDATA[
+			SELECT
+				T1.PERFORM_NO										AS performNo			,	/* 연주번호 */
+				T1.ARRANGE_NO										AS arrangeNo			,	/* 편곡번호 */
+				T1.PLAY_FIELD_NO									AS playFieldNo			,	/* 연주분야번호 */
+				T1.PLAY_FIELD_NAME									AS playFieldName		,	/* 연주분야명 */
+				T1.PERFORM_MEMBER_NO								AS performMemberNo		,	/* 연주자회원번호 */
+				T2.MEMBER_NAME										AS performMemberName	,	/* 연주자회원명 */
+				T2.MEMBER_NICKNAME									AS performMemberNicName	,	/* 연주자회원닉네임 */
+				T1.PERFORM_RATE										AS performRate			,	/* 연주배분율 */
+				T1.PERFORM_SOUND									AS performSound			,	/* 음원파일 */           
+				CONCAT(T3.WEB_PATH,  T3.FILE_NAME2)					AS performSoundWeb		,	/* 음원파일 Web Path */  
+				CONCAT(T3.FILE_PATH, T3.FILE_NAME2)					AS performSoundFile		,	/* 음원파일 Local Path */
+				GET_SOUND_FILE(T3.WEB_PATH,  T3.FILE_NAME2, 'mp3')	AS performSoundMp3		,	/* 음원파일 mp3 Path */
+				GET_SOUND_FILE(T3.WEB_PATH,  T3.FILE_NAME2, 'ogg')	AS performSoundOgg		,	/* 음원파일 ogg Path */
+				GET_SOUND_FILE(T3.WEB_PATH,  T3.FILE_NAME2, 'png')	AS performSoundPng		,	/* 음원파일 pbg Path */
+				T1.PERFORM_MEMO										AS performMemo			,	/* 메모 */
+				T1.CHOICE_STATUS									AS choiceStatus			,	/* 선택여부 */
+				T1.CONFIRM_STATUS									AS confirmStatus		,	/* 확정여부 */
+				T1.PERFORM_STATUS									AS performStatus		,	/* 연주상태 */
+				DATE_FORMAT(T1.REG_DATETIME, '%Y-%m-%d %H:%i:%s')	AS regDateTime				/* 등록일시 */
+			FROM
+				TBL_PERFORMANCE		AS T1
+			LEFT OUTER JOIN
+				TBL_MEMBER			AS T2
+					ON (
+							T2.MEMBER_NO	= T1.PERFORM_MEMBER_NO
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS T3
+					ON (
+							T3.ATTACH_NO	= T1.PERFORM_SOUND
+						)
+			WHERE
+				T1.ARRANGE_NO	= #{arrangeNo}
+			ORDER BY
+				T1.PERFORM_NO
+		]]>
+	</select>
+	
+		<!-- 연주 조회 -->
+	<select id="getPerformancesByArrangeNo" parameterType="int"
+		resultType="com.ma2rix.music.model.domain.Performance">
+		<![CDATA[
+			SELECT
+				PERFORM_NO										AS performNo			,	/* 연주번호 */
+				ARRANGE_NO										AS arrangeNo			,	/* 편곡번호 */
+				PLAY_FIELD_NO									AS playFieldNo			,	/* 연주분야번호 */
+				PLAY_FIELD_NAME									AS playFieldName		,	/* 연주분야명 */
+				PERFORM_MEMBER_NO								AS performMemberNo		,	/* 연주자회원번호 */
+				PERFORM_RATE									AS performRate			,	/* 연주배분율 */
+				PERFORM_SOUND									AS performSound			,	/* 음원파일 */           
+				PERFORM_MEMO									AS performMemo			,	/* 메모 */
+				CHOICE_STATUS									AS choiceStatus			,	/* 선택여부 */
+				CONFIRM_STATUS									AS confirmStatus		,	/* 확정여부 */
+				PERFORM_STATUS									AS performStatus		,	/* 연주상태 */
+				REG_DATETIME									AS regDateTime			,
+				MOD_MEMBER_NO									AS modMemberNo			,
+				MOD_DATETIME									AS modDateTime
+			FROM
+				TBL_PERFORMANCE		
+			WHERE
+				ARRANGE_NO	= #{arrangeNo}
+			ORDER BY
+				PERFORM_NO
+		]]>
+	</select>
+
+	<!-- 연주 등록 -->
+	<insert id="insertPerformance" parameterType="com.ma2rix.music.model.domain.Performance">
+		<![CDATA[
+			INSERT INTO
+				TBL_PERFORMANCE
+			(
+				ARRANGE_NO				,	/* 편곡번호 */
+				PLAY_FIELD_NO			,	/* 연주분야번호 */
+				PLAY_FIELD_NAME			,	/* 연주분야명 */
+				PERFORM_MEMBER_NO		,	/* 연주자회원번호 */
+				PERFORM_RATE			,	/* 연주배분율 */
+				PERFORM_SOUND			,	/* 음원파일 */           
+				PERFORM_MEMO			,	/* 메모 */
+				CHOICE_STATUS			,	/* 선택여부 */
+				CONFIRM_STATUS			,	/* 확정여부 */
+				PERFORM_STATUS			,	/* 연주상태 */
+				REG_DATETIME				/* 등록일시 */
+			)
+			VALUES
+			(
+				#{arrangeNo}			,	/* 편곡번호 */
+				#{playFieldNo}			,	/* 연주분야번호 */
+				#{playFieldName}		,	/* 연주분야명 */
+				#{performMemberNo}		,	/* 연주자회원번호 */
+				#{performRate}			,	/* 연주배분율 */
+				#{performSound}			,	/* 음원파일 */           
+				#{performMemo}			,	/* 메모 */
+				#{choiceStatus}			,	/* 선택여부 */
+				#{confirmStatus}		,	/* 확정여부 */
+				#{performStatus}		,	/* 연주상태 */
+				NOW()						/* 등록일시 */
+			)
+		]]>
+
+		<selectKey keyProperty="performNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<!-- 연주 수정 -->
+	<update id="updatePerformance" parameterType="com.ma2rix.music.model.domain.Performance">
+		<![CDATA[
+			UPDATE
+				TBL_PERFORMANCE
+			SET
+				ARRANGE_NO				= #{arrangeNo}			,	/* 편곡번호 */
+				PLAY_FIELD_NO			= #{playFieldNo}		,	/* 연주분야번호 */
+				PLAY_FIELD_NAME			= #{playFieldName}		,	/* 연주분야명 */
+				PERFORM_MEMBER_NO		= #{performMemberNo}	,	/* 연주자회원번호 */
+				PERFORM_RATE			= #{performRate}		,	/* 연주배분율 */
+				PERFORM_SOUND			= #{performSound}		,	/* 음원파일 */           
+				PERFORM_MEMO			= #{performMemo}		,	/* 메모 */
+				CHOICE_STATUS			= #{choiceStatus}		,	/* 선택여부 */
+				CONFIRM_STATUS			= #{confirmStatus}		,	/* 확정여부 */
+				PERFORM_STATUS			= #{performStatus}		,	/* 연주상태 */
+				MOD_MEMBER_NO			= #{modMemberNo}		,	/* 수정회원번호 */
+				MOD_DATETIME			= #{modDateTime}			/* 수정일시 */
+			WHERE
+				PERFORM_NO	= #{performNo}
+		]]>
+	</update>
+
+	<!-- 연주 삭제 -->
+	<delete id="deletePerformance" parameterType="int">
+		<![CDATA[
+			DELETE FROM
+				TBL_PERFORMANCE
+			WHERE
+				PERFORM_NO	= #{performNo}
+		]]>
+	</delete>
+
+</mapper>

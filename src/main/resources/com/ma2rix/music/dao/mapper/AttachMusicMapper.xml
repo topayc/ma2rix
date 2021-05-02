@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.AttachMusicMapper">
+	<cache />
+		<select id="getAttachMusicsByCode" parameterType="string" resultType="com.ma2rix.music.model.domain.AttachMusic">
+		<![CDATA[
+			SELECT 
+				ATTACH_NO                 AS attachNo         ,
+				MUSIC_STEP                AS musicStep         ,
+				MUSIC_NO                  AS musicNo           ,
+				MUSIC_CLASS               AS musicClass        ,
+				WEB_PATH                  AS webPath           ,
+			    FILE_PATH                 AS filePath          ,
+			    FILE_NAME                 AS fileName          ,
+			    FILE_NAME2                AS fileName2         ,
+			    ATTACH_HITS               AS attachHots        ,
+			    DOWNLOAD_COUNT            AS downloadCount     ,
+			    REG_MEMBER_NO             AS regMemberNo       ,
+			    REG_DATETIME              AS regDateTime
+			FROM TBL_attach_music
+			WHERE music_class = #{code}
+		]]>
+	</select>
+	
+	<select id="getAttachMusicByAttachNo" parameterType="int" resultType="com.ma2rix.music.model.domain.AttachMusic">
+		<![CDATA[
+			SELECT 
+				ATTACH_NO                 AS attachNo         ,
+				MUSIC_STEP                AS musicStep         ,
+				MUSIC_NO                  AS musicNo           ,
+				MUSIC_CLASS               AS musicClass        ,
+				WEB_PATH                  AS webPath           ,
+			    FILE_PATH                 AS filePath          ,
+			    FILE_NAME                 AS fileName          ,
+			    FILE_NAME2                AS fileName2         ,
+			    ATTACH_HITS               AS attachHits        ,
+			    DOWNLOAD_COUNT            AS downloadCount     ,
+			    REG_MEMBER_NO             AS regMemberNo       ,
+			    REG_DATETIME              AS regDateTime
+			FROM TBL_ATTACH_MUSIC
+			WHERE ATTACH_NO = #{attachNo}
+		]]>
+	</select>
+	
+	
+	<select id="getAttachMusicByCodeAndNo" parameterType="hashmap" resultType="com.ma2rix.music.model.domain.AttachMusic">
+		<![CDATA[
+			SELECT 
+				ATTACH_NO                 AS attachNo          ,
+				MUSIC_STEP                AS musicStep         ,
+				MUSIC_NO                  AS musicNo           ,
+				MUSIC_CLASS               AS musicClass        ,
+				WEB_PATH                  AS webPath           ,
+			    FILE_PATH                 AS filePath          ,
+			    FILE_NAME                 AS fileName          ,
+			    FILE_NAME2                AS fileName2         ,
+			    ATTACH_HITS               AS attachHots        ,
+			    DOWNLOAD_COUNT            AS downloadCount     ,
+			    REG_MEMBER_NO             AS regMemberNo       ,
+			    REG_DATETIME              AS regDateTime
+			FROM TBL_attach_music
+			WHERE MUSIC_CLASS = #{musicClass} AND  MUSIC_NO = ${musicNo}
+		]]>
+	</select>
+	
+	<insert id="insertAttachMusic" parameterType="com.ma2rix.music.model.domain.AttachMusic">
+			INSERT INTO
+				TBL_ATTACH_MUSIC
+			(
+				MUSIC_STEP          ,
+				MUSIC_NO            ,
+				MUSIC_CLASS         ,
+				WEB_PATH            ,
+				FILE_PATH           ,
+				FILE_NAME           ,
+				FILE_NAME2          ,
+				ATTACH_HITS         ,
+				DOWNLOAD_COUNT      ,
+				REG_MEMBER_NO       ,
+				REG_DATETIME        
+			)
+			VALUES
+			(
+				#{musicStep}        ,
+				#{musicNo}          ,
+				#{musicClass}       ,
+				#{webPath}          ,
+				#{filePath}         ,
+				#{fileName}         ,
+				#{fileName2}        ,
+				0                   ,
+				0                   ,
+				0                   ,
+				NOW()
+			)
+		
+
+		<selectKey keyProperty="attachNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<update id="updateAttachMusic" parameterType="com.ma2rix.music.model.domain.AttachMusic">
+		<![CDATA[
+			UPDATE
+				TBL_ATTACH_MUSIC
+			SET 
+				MUSIC_STEP         = #{musicStep}     ,
+				MUSIC_NO           = #{musicNo}       ,
+				MUSIC_CLASS        = #{musicClass}    ,
+				WEB_PATH           = #{webPath}       ,
+				FILE_PATH          = #{filePath}      ,
+				FILE_NAME          = #{fileName}      ,
+				FILE_NAME2         = #{fileName2}     ,
+				ATTACH_HITS        = #{attachHits}     ,
+				DOWNLOAD_COUNT     = #{downloadCount} ,
+				REG_MEMBER_NO      = #{regMemberNo}   ,
+				REG_DATETIME       = #{regDateTime}   
+			WHERE 
+				ATTACH_NO = #{attachNo}
+		]]>
+	</update>
+	
+	<update id="updateAttachMusicByAttatchNo" parameterType="int">
+		<![CDATA[
+			UPDATE
+				TBL_ATTACH_MUSIC
+			SET 
+				MUSIC_STEP         = #{musicStep}     ,
+				MUSIC_NO           = #{musicNo}       ,
+				MUSIC_CLASS        = #{musicClass}    ,
+				WEB_PATH           = #{webPath}       ,
+				FILE_PATH          = #{filePath}      ,
+				FILE_NAME          = #{fileName}      ,
+				FILE_NAME2         = #{fileName2}     ,
+				ATTACH_HITS        = #{attachHts}     ,
+				DOWNLOAD_COUNT     = #{downloadCount} ,
+				REG_MEMBER_NO      = #{regMemberNo}   ,
+				REG_DATETIME       = #{regDateTime}   
+			WHERE 
+				ATTACH_NO = #{attachNo}
+		]]>
+	</update>
+	
+	<delete id="deleteAttachMusic" parameterType="com.ma2rix.music.model.domain.AttachMusic">
+		<![CDATA[
+			DELETE FROM 
+				TBL_ATTACH_MUSIC
+			WHERE 
+				ATTACH_NO = #{attachNo}
+		]]>
+	</delete>
+	
+	<delete id="deleteAttachMusicByAttchNo" parameterType = "int">
+		<![CDATA[
+			DELETE FROM 
+				TBL_ATTACH_MUSIC
+			WHERE 
+				ATTACH_NO = #{attachNo}
+		]]>
+	</delete>
+		
+</mapper>

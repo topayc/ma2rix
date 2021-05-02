@@ -1,0 +1,78 @@
+/* 회원가입 페이지 공통 */
+h3.tit {font-size:30px; line-height:30px; margin-top:100px;color:#000;}
+.tab {border:1px solid #e5e5e5; background:#f5f5f5;margin-top:34px;}
+.tab li {float:left; width:326px; display:inline-block; line-height:71px;}
+.tab li span {float:left;width:100%;display:inline-block; height:71px; text-align:center;font-size:15px; font-weight:900;}
+.tab li.step1 span {margin-left:15px;}
+.tab li.step2 span {margin-left:20px;}
+.tab li.step3 span {margin-left:25px;}
+div.join{float:left; width:100%; margin-top:80px; }
+.tab_bg1{background:url(../../_images/join/join_step_bar1.png);}
+.tab_bg2{background:url(../../_images/join/join_step_bar2.png);}
+.tab_bg3{background:url(../../_images/join/join_step_bar3.png);}
+
+
+/*회원가입 상세 정보 입력 페이지 join_step1.html*/
+table.join {float:left; width:100%; margin-top:80px; border-top:2px solid #ff503f;border-bottom:1px solid #c8c8c8;}
+table.join th,
+table.join td {padding:5px 0; border-bottom:1px solid #e9e9e9;}
+table.join th {text-indent:20px; text-align:left; background:#f5f5f5; color: #727272; font-size: 12px;font-weight: bold;}
+table.join td input[type=text],
+table.join td input[type=password] {float:left;margin-left:10px;}
+table.join td span.hypen {display:inline-block;:left;margin-left:10px;}
+table.join td .box {float:left; border:1px solid #e5e5e5; background:#f5f5f5; padding:2px 5px; position:relative;}
+table.join td .box .plus {margin-left:10px;}
+table.join td .box .minus {margin-left:10px;}
+table.join tr.hide1 {display:none;}
+table.join td .box.add {margin-top:3px;} 
+table.join .direct_input{display:none;}
+
+
+
+/*회원가입 유형 선택 페이지(teiklr or ma2rix) join_step2.html*/
+
+div.join h3{text-align:center;}
+.join_type_button_wrap{text-align:center; margin: 80px 0 0 0;}
+.join_type_button{width: 335px; height: 175px; text-align:center; border:solid 1px #DEDEDE; padding:50px 0 20px 0; display:inline-block; margin : 0 10px 0 10px;}
+.join_type_button #button{;}
+.type_ma2rix h2{color:#FE523E;}
+.type_ma2rix h3{color:#646464;/* margin-bottom: 15px; */line-height: 35px;}
+.type_ma2rix input{display:block;width:125px;height:47px; color:#FFF; background-color:#FD4F3E; border=0; margin:0 auto;cursor: pointer;}
+.type_teiklr h2{color:#1EB19E;}
+.type_teiklr h3{color:#646464;line-height: 35px;}
+.type_teiklr input{display:block;width:125px;height:47px; color:#FFF; background-color:#1EB19E; border=0; margin:0 auto;cursor: pointer;}
+.overlap {border: 1px solid #D6D6D6;width:70px;height:30px;padding:3px 10px 0 10px;margin:0 0 0 10px;font-weight:bold;cursor:pointer;background-color: #EEE;}
+
+
+
+
+/*회원가입 약관 동의 페이지 join_step3.html*/
+.clause_wrap span{font-size : 17px; font-weight:bold; vertical-align:bottom;}
+.clause_wrap .text_clause1 {position: relative; width : 100%;height : 200px;background-color : #FAFAFA;border : 0px;box-shadow : 0 1px 2px rgba(31, 50, 63, 0.25); margin:10px 0 10px 0;}
+
+/*회원 가입 완료 페이지 join_step4.html*/
+.complete_text h2{color: black;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

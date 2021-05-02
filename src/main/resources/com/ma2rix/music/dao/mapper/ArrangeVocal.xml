@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.ArrangeVocalMapper">
+	<select id="getArrangeVocalCount"  resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_ARRANGE_VOCAL
+		]]>
+	</select>
+	
+	<select id="getAllArrangeVocalList"  resultType="com.ma2rix.music.model.domain.ArrangeVocal">
+		<![CDATA[
+			SELECT
+				ARRANGE_NO				as arrangeNo		,
+				VOCAL_MEMBER_NO			as vocalMemberNo	,
+				REG_DATETIME			as regDateTime		 
+			FROM
+				TBL_ARRANGE_VOCAL
+		]]>	
+	</select>
+	
+	<select id="getAllArrangeVocalCommandList"  resultType="com.ma2rix.music.model.command.ArrangeVocalCommand">
+		<![CDATA[
+			SELECT
+				T1.ARRANGE_NO				as arrangeNo		,
+				T1.VOCAL_MEMBER_NO			as vocalMemberNo	,
+				T2.MEMBER_NAME 				as vocalMemberName  ,
+				T1.REG_DATETIME				as regDateTime		 
+			FROM
+				TBL_ARRANGE_VOCAL    AS T1
+			INNER JOIN
+				TBL_MEMBER 			 AS T2
+					ON (
+						T1.VOCAL_MEMBER_NO	= T2.MEMBER_NO
+					)
+		]]>	
+	</select>
+	
+	
+	
+	<select id="getArrangeVocalCommandsByArrangeNo"  parameterType = "int" resultType="com.ma2rix.music.model.command.ArrangeVocalCommand">
+		<![CDATA[
+		SELECT
+				T1.ARRANGE_NO				as arrangeNo		,
+				T1.VOCAL_MEMBER_NO			as vocalMemberNo	,
+				T2.MEMBER_NAME 				as vocalMemberName  ,
+				T1.REG_DATETIME				as regDateTime		 
+			FROM
+				TBL_ARRANGE_VOCAL    AS T1
+			INNER JOIN
+				TBL_MEMBER 			 AS T2
+					ON (
+						T1.VOCAL_MEMBER_NO	= T2.MEMBER_NO
+					)
+			WHERE
+				ARRANGE_NO  = #{arrangeNo}
+		]]>	
+	</select>
+	
+	<select id="getArrangeVocalCommandByArrangeNoAndVocalMemberNo"  parameterType = "int" resultType="com.ma2rix.music.model.command.ArrangeVocalCommand">
+		<![CDATA[
+		SELECT
+				T1.ARRANGE_NO				as arrangeNo		,
+				T1.VOCAL_MEMBER_NO			as vocalMemberNo	,
+				T2.MEMBER_NAME 				as vocalMemberName  ,
+				T1.REG_DATETIME				as regDateTime		 
+			FROM
+				TBL_ARRANGE_VOCAL    AS T1
+			INNER JOIN
+				TBL_MEMBER 			 AS T2
+					ON (
+						T1.VOCAL_MEMBER_NO	= T2.MEMBER_NO
+					)
+			WHERE
+				ARRANGE_NO  = #{arrangeNo}
+			AND 
+				VOCAL_MEMBER_NO  = #{vocalMemberNo}
+		]]>	
+	</select>
+	
+	
+	<select id="getArrangeVocalByArrangeNoAndVocalMemberNo"  parameterType = "int" resultType="com.ma2rix.music.model.domain.ArrangeVocal">
+		<![CDATA[
+		SELECT
+				ARRANGE_NO				as arrangeNo		,
+				VOCAL_MEMBER_NO			as vocalMemberNo	,
+				REG_DATETIME			as regDateTime		 
+			FROM
+				TBL_ARRANGE_VOCAL
+			WHERE
+				ARRANGE_NO  = #{arrangeNo}
+			AND
+				VOCAL_MEMBER_NO  = #{vocalMemberNo}
+		]]>	
+	</select>
+	
+	<select id="getArrangeVocalByArrangeNo"  parameterType = "int" resultType="com.ma2rix.music.model.domain.ArrangeVocal">
+		<![CDATA[
+		SELECT
+				ARRANGE_NO				as arrangeNo		,
+				VOCAL_MEMBER_NO			as vocalMemberNo	,
+				REG_DATETIME			as regDateTime		 
+			FROM
+				TBL_ARRANGE_VOCAL
+			WHERE
+				ARRANGE_NO  = #{arrangeNo}
+		]]>	
+	</select>
+	
+	<select id="getArrangeVocalByVocalMemberNo"  parameterType = "int" resultType="com.ma2rix.music.model.domain.ArrangeVocal">
+		<![CDATA[
+		SELECT
+				ARRANGE_NO				as arrangeNo		,
+				VOCAL_MEMBER_NO			as vocalMemberNo	,
+				REG_DATETIME			as regDateTime		 
+			FROM
+				TBL_ARRANGE_VOCAL
+			WHERE
+				VOCAL_MEMBER_NO  = #{vocalMemberNo}
+		]]>	
+	</select>
+	
+	
+	<insert id="insertArrangeVocal" parameterType ="com.ma2rix.music.model.domain.ArrangeVocal" >
+		<![CDATA[
+			INSERT INTO
+				TBL_ARRANGE_VOCAL
+			(
+				ARRANGE_NO				,
+				VOCAL_MEMBER_NO			,
+				REG_DATETIME
+			)
+			VALUES
+			(
+				#{arrangeNo}			,
+				#{vocalMemberNo}		,
+				NOW()
+			)
+		]]>
+	
+	</insert>
+
+	<delete id="deleteArrangeVocalByArrangeNoAndVocalMemberNo" parameterType ="int" >
+		<![CDATA[
+			DELETE FROM
+				TBL_ARRANGE_VOCAL
+			WHERE
+				ARRANGE_NO	= #{arrangeNo}
+			AND
+				VOCAL_MEMBER_NO =#{vocalMemberNo}
+		]]>
+	</delete>
+	
+	<delete id="deleteArrangeVocalByArrangeNo" parameterType ="int" >
+		<![CDATA[
+			DELETE FROM
+				TBL_ARRANGE_VOCAL
+			WHERE
+				ARRANGE_NO	= #{arrangeNo}
+		]]>
+	</delete>
+	
+	<delete id="deleteArrangeVocalByVocalMemberNo" parameterType ="int" >
+		<![CDATA[
+			DELETE FROM
+				TBL_ARRANGE_VOCAL
+			WHERE
+				VOCAL_MEMBER_NO = #{vocalMemberNo}
+		]]>
+	</delete>
+	
+	<update id="updateArrangeVocal" parameterType ="com.ma2rix.music.model.domain.ArrangeVocal" >
+		<![CDATA[
+			
+		]]>
+	</update>
+
+
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	
+	<!-- 로케일 설정을 위한 RequestContextListener 설정-->
+	<!-- <listener>
+  		<listener-class>com.ma2rix.music.locale.LocaleChangeListener</listener-class>
+	</listener> -->
+
+	<!-- The definition of the Root Spring Container shared by all Servlets 
+		and Filters -->
+	
+	<!-- POST 파라미터의 UTF-8 인코딩을 위한 필터와 필터 매핑 설정 -->
+	<filter>
+		<filter-name>encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+
+	<!-- Encoding Filter 가 적용될 URL 패턴 -->
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- 스프링 Listener 가 읽어들일 root context 의 위치 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+
+	<!--스프링 root Context 로딩을 위한 ContextLoaderListener 리스너 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- 스프링 dispatcher Servlet 설정 -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<!-- Dispatcher Servlet 에서 읽어들일 Servlet context 의 위치 -->
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- Dispatcher Servlet 의 Mapptin Url -->
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+
+</web-app>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.PGMapper">
+	<select id="getPGCount"  resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_PG
+		]]>
+	</select>
+	
+	<select id="getAllPGList"  resultType="com.ma2rix.music.model.domain.PG">
+		<![CDATA[
+			SELECT
+				PG_NO				AS pgNo			,
+				PG_NAME				AS pgName		,
+				FEE_TYPE			AS feeType		,
+				AGENCY_ID			AS agencyId		,
+				FEE_UNIT			as feeUint		,
+				PG_STATUS			AS pgStatus		,
+				REG_ADMINNO			AS regAdminNo	,
+				REG_DATETIME		AS regDateTime	,
+				MOD_ADMIN_NO		AS modAdminNo	,
+				MOD_DATETIME		AS modeDateTime	,
+			FROM
+				TBL_PG
+		]]>	
+	</select>
+	
+	<select id="getPGByNo"  parameterType = "int" resultType="com.ma2rix.music.model.domain.PG">
+		<![CDATA[
+			SELECT
+				PG_NO				AS pgNo			,
+				PG_NAME				AS pgName		,
+				FEE_TYPE			AS feeType		,
+				FEE_UNIT			as feeUint		,
+				AGENCY_ID			AS agencyId		,
+				PG_STATUS			AS pgStatus		,
+				REG_ADMINNO			AS regAdminNo	,
+				REG_DATETIME		AS regDateTime	,
+				MOD_ADMIN_NO		AS modAdminNo	,
+				MOD_DATETIME		AS modeDateTime	,
+			FROM
+				TBL_PG
+			WHERE
+				PG_NO  = #{pgNo}
+		]]>	
+	</select>
+	
+	<select id="getPGByName" parameterType ="string" resultType="com.ma2rix.music.model.domain.PG">
+		<![CDATA[
+			SELECT
+				PG_NO				AS pgNo			,
+				PG_NAME				AS pgName		,
+				FEE_TYPE			AS feeType		,
+				FEE_UNIT			as feeUint		,
+				AGENCY_ID			AS agencyId		,
+				PG_STATUS			AS pgStatus		,
+				REG_ADMINNO			AS regAdminNo	,
+				REG_DATETIME		AS regDateTime	,
+				MOD_ADMIN_NO		AS modAdminNo	,
+				MOD_DATETIME		AS modeDateTime	,
+			FROM
+				TBL_PG
+			WHERE
+				PG_NAME  = #{pgName}
+		]]>	
+	</select>
+	
+	<insert id="insertPG" parameterType ="com.ma2rix.music.model.domain.PG" >
+		<![CDATA[
+			INSERT INTO
+				TBL_PG
+			(
+				PG_NAME				,
+				FEE_TYPE			,
+				AGENCY_ID			,
+				PG_STATUS			,
+				REG_ADMIN_NO		,
+				REG_DATETIME		,
+				MODE_ADMIN_NO		,
+				MOD_DATETIME		
+			)
+			VALUES
+			(
+				#{pgName}			,
+				#{feeType}			,
+				#{agencyId}			,
+				#{pgStatus}			,
+				#{regAdminNo}		,
+				NOW()				,
+				#{modAdminNo}		,
+				NOW()
+			)
+		]]>
+
+		<selectKey keyProperty="pgNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<delete id="deletePG" parameterType ="com.ma2rix.music.model.domain.PG" >
+		<![CDATA[
+			DELETE FROM
+				TBL_PG
+			WHERE
+				PG_NO	= #{pgNo}
+		]]>
+	</delete>
+
+	<update id="updatePG" parameterType ="com.ma2rix.music.model.domain.PG" >
+		<![CDATA[
+			UPDATE
+				TBL_PG
+			SET
+				PG_NAME 		= #{pgName}			,
+				FEE_TYPE 		= #{feeType}		,
+				FEE_UNIT		= #{feeUnit}		,
+				AGENCY_ID		= #{agencyId}		,
+				PG_STATUS		= #{pgStatus}		
+			WHERE
+				PG_NO	= #{pgNo}
+		]]>
+	</update>
+
+
+</mapper>

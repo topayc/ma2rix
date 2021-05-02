@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.UserMapper">
+
+	<cache />
+		<select id="getUserByMemberNo" parameterType="int" resultType="com.ma2rix.music.model.domain.User">
+		SELECT 
+				MEMBER_NO AS memberNo,
+				MEMBER_USERID AS memberUserId,
+				MEMBER_NAME AS memberName,
+				MEMBER_PWD AS memberPwd,
+				MEMBER_ROUTE AS memberRoute,
+				MEMBER_NICKNAME AS memberNickName,
+				MEMBER_IMAGE AS memberImage,
+				COUNTRY_NO AS countryNo,
+				MEMBER_CITY AS memberCity,
+				MEMBER_INTRODUCE AS memberIntroduce,
+				MEMBER_HOMEPAGE AS memberHomePage,
+				HOMEPAGE_COMMENT AS homePageComment,
+				MEMBER_STATUS AS memberStatus,
+				EMAIL_RECEIVE AS emailReceive,
+				COMMUNITY_MEMBER_NO AS communityMemberNo,
+				SPONSOR_AMOUNT AS sponsorAmout,
+				LAST_DATETIME AS lastDateTime,
+				REG_DATETIME AS regDateTime,
+				MOD_ADMIN_NO AS modAdminNo,
+				MOD_DATETIME AS modDateTime
+		FROM TBL_MEMBER
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+		<select id="findUserByUserObject" parameterType="com.ma2rix.music.model.domain.User" resultType="com.ma2rix.music.model.domain.User">
+		SELECT 
+				MEMBER_NO AS memberNo,
+				MEMBER_USERID AS memberUserId,
+				MEMBER_NAME AS memberName,
+				MEMBER_PWD AS memberPwd,
+				MEMBER_ROUTE AS memberRoute,
+				MEMBER_NICKNAME AS memberNickName,
+				MEMBER_IMAGE AS memberImage,
+				COUNTRY_NO AS countryNo,
+				MEMBER_CITY AS memberCity,
+				MEMBER_INTRODUCE AS memberIntroduce,
+				MEMBER_HOMEPAGE AS memberHomePage,
+				HOMEPAGE_COMMENT AS homePageComment,
+				MEMBER_STATUS AS memberStatus,
+				EMAIL_RECEIVE AS emailReceive,
+				COMMUNITY_MEMBER_NO AS communityMemberNo,
+				SPONSOR_AMOUNT AS sponsorAmout,
+				LAST_DATETIME AS lastDateTime,
+				REG_DATETIME AS regDateTime,
+				MOD_ADMIN_NO AS modAdminNo,
+				MOD_DATETIME AS modDateTime
+		FROM TBL_MEMBER
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="getUserByEmail" parameterType="string" resultType="com.ma2rix.music.model.domain.User">
+		SELECT 
+				MEMBER_NO AS memberNo,
+				MEMBER_USERID AS memberUserId,
+				MEMBER_NAME AS memberName,
+				MEMBER_PWD AS memberPwd,
+				MEMBER_ROUTE AS memberRoute,
+				MEMBER_NICKNAME AS memberNickName,
+				MEMBER_IMAGE AS memberImage,
+				COUNTRY_NO AS countryNo,
+				MEMBER_CITY AS memberCity,
+				MEMBER_INTRODUCE AS memberIntroduce,
+				MEMBER_HOMEPAGE AS memberHomePage,
+				HOMEPAGE_COMMENT AS homePageComment,
+				MEMBER_STATUS AS memberStatus,
+				EMAIL_RECEIVE AS emailReceive,
+				COMMUNITY_MEMBER_NO AS communityMemberNo,
+				SPONSOR_AMOUNT AS sponsorAmout,
+				LAST_DATETIME AS lastDateTime,
+				REG_DATETIME AS regDateTime,
+				MOD_ADMIN_NO AS modAdminNo,
+				MOD_DATETIME AS modDateTime
+		FROM TBL_MEMBER
+		WHERE MEMBER_USERID = #{email}
+	
+	</select>
+	
+	<select id="GetUserByNickName" parameterType="string" resultType="com.ma2rix.music.model.domain.User">
+		SELECT 
+				MEMBER_NO AS memberNo,
+				MEMBER_USERID AS memberUserId,
+				MEMBER_NAME AS memberName,
+				MEMBER_PWD AS memberPwd,
+				MEMBER_ROUTE AS memberRoute,
+				MEMBER_NICKNAME AS memberNickName,
+				MEMBER_IMAGE AS memberImage,
+				COUNTRY_NO AS countryNo,
+				MEMBER_CITY AS memberCity,
+				MEMBER_INTRODUCE AS memberIntroduce,
+				MEMBER_HOMEPAGE AS memberHomePage,
+				HOMEPAGE_COMMENT AS homePageComment,
+				MEMBER_STATUS AS memberStatus,
+				EMAIL_RECEIVE AS emailReceive,
+				COMMUNITY_MEMBER_NO AS communityMemberNo,
+				SPONSOR_AMOUNT AS sponsorAmout,
+				LAST_DATETIME AS lastDateTime,
+				REG_DATETIME AS regDateTime,
+				MOD_ADMIN_NO AS modAdminNo,
+				MOD_DATETIME AS modDateTime
+		FROM TBL_MEMBER
+		WHERE MEMBER_NICKNAME = #{nickName}
+	</select>
+	
+	<select id="GetUserByName" parameterType="string" resultType="com.ma2rix.music.model.domain.User">
+		SELECT 
+		   		MEMBER_NO AS memberNo,
+				MEMBER_USERID AS memberUserId,
+				MEMBER_NAME AS memberName,
+				MEMBER_PWD AS memberPwd,
+				MEMBER_ROUTE AS memberRoute,
+				MEMBER_NICKNAME AS memberNickName,
+				MEMBER_IMAGE AS memberImage,
+				COUNTRY_NO AS countryNo,
+				MEMBER_CITY AS memberCity,
+				MEMBER_INTRODUCE AS memberIntroduce,
+				MEMBER_HOMEPAGE AS memberHomePage,
+				HOMEPAGE_COMMENT AS homePageComment,
+				MEMBER_STATUS AS memberStatus,
+				EMAIL_RECEIVE AS emailReceive,
+				COMMUNITY_MEMBER_NO AS communityMemberNo,
+				SPONSOR_AMOUNT AS sponsorAmout,
+				LAST_DATETIME AS lastDateTime,
+				REG_DATETIME AS regDateTime,
+				MOD_ADMIN_NO AS modAdminNo,
+				MOD_DATETIME AS modDateTime
+		FROM TBL_MEMBER
+		WHERE MEMBER_NAME = #{name}
+	</select>
+
+	<select id="getUserByEmailAndPassword"  resultType="com.ma2rix.music.model.domain.User">
+		<![CDATA[
+			SELECT 
+			    MEMBER_NO AS memberNo,
+			    MEMBER_USERID AS memberUserId,
+			    MEMBER_NAME AS memberName, 
+			    MEMBER_PWD AS memberPwd, 
+			    MEMBER_NICKNAME AS memberNickName, 
+			    MEMBER_ROUTE AS memberRoute, 
+			    MEMBER_IMAGE AS memberImage, 
+			    COUNTRY_NO AS countryNo, 
+			    MEMBER_CITY AS memberCity, 
+			    MEMBER_INTRODUCE AS memberIntroduce, 
+			    MEMBER_HOMEPAGE AS memberHomePage, 
+			    HOMEPAGE_COMMENT AS homePageComment, 
+			    MEMBER_STATUS AS memberStatus, 
+			    EMAIL_RECEIVE AS emailReceive, 
+			    COMMUNITY_MEMBER_NO AS communityMemberNo, 
+			    SPONSOR_AMOUNT AS sponsorAmout, 
+			    LAST_DATETIME AS lastDateTime, 
+			    REG_DATETIME AS regDateTime, 
+			    MOD_ADMIN_NO AS modAdminNo, 
+			    MOD_DATETIME AS modDateTime
+			FROM TBL_MEMBER 
+			WHERE MEMBER_USERID = #{email} AND MEMBER_PWD = #{password}
+		]]>
+	</select>
+		
+		
+		
+		<select id="findUser" parameterType="string" resultType="com.ma2rix.music.model.domain.User">
+			SELECT 
+				MEMBER_NO AS memberNo,
+				MEMBER_USERID AS memberUserId,
+				MEMBER_NAME AS memberName,
+				MEMBER_PWD AS memberPwd,
+				MEMBER_ROUTE AS memberRoute,
+				MEMBER_NICKNAME AS memberNickName,
+				MEMBER_IMAGE AS memberImage,
+				COUNTRY_NO AS countryNo,
+				MEMBER_CITY AS memberCity,
+				MEMBER_INTRODUCE AS memberIntroduce,
+				MEMBER_HOMEPAGE AS memberHomePage,
+				HOMEPAGE_COMMENT AS homePageComment,
+				MEMBER_STATUS AS memberStatus,
+				EMAIL_RECEIVE AS emailReceive,
+				COMMUNITY_MEMBER_NO AS communityMemberNo,
+				SPONSOR_AMOUNT AS sponsorAmout,
+				LAST_DATETIME AS lastDateTime,
+				REG_DATETIME AS regDateTime,
+				MOD_ADMIN_NO AS modAdminNo,
+				MOD_DATETIME AS modDateTime
+			FROM TBL_MEMBER
+			WHERE MEMBER_USERID = #{email}
+	</select>
+	
+	<select id="getAllUsers" resultType="com.ma2rix.music.model.domain.User">
+		SELECT 
+			MEMBER_NO AS memberNo
+			MEMBER_USERID AS memberUserId,
+			MEMBER_NAME AS memberName,
+			MEMBER_PWD AS memberPwd,
+			MEMBER_ROUTE AS memberRoute,
+			MEMBER_NICKNAME AS memberNickName,
+			MEMBER_IMAGE AS memberImage,
+			COUNTRY_NO AS countryNo,
+			MEMBER_CITY AS memberCity,
+			MEMBER_INTRODUCE AS memberIntroduce
+			MEMBER_HOMEPAGE AS memberHomePage,
+			HOMEPAGE_COMMENT AS homePageComment,
+			MEMBER_STATUS AS memberStatus,
+			EMAIL_RECEIVE AS emailReceive,
+			COMMUNITY_MEMBER_NO AS communityMemberNo,
+			SPONSOR_AMOUNT AS sponsorAmout,
+			LAST_DATETIME AS lastDateTime,
+			REG_DATETIME AS regDateTime,
+			MOD_ADMIN_NO AS modAdminNo,
+			MOD_DATETIME AS modDateTime
+		FROM TBL_MEMBER
+	</select>
+	
+	<insert id="insertUser" parameterType="com.ma2rix.music.model.domain.User">
+		INSERT INTO TBL_MEMBER (
+							 MEMBER_USERID,
+							 MEMBER_NAME,
+							 MEMBER_PWD,
+							 MEMBER_NICKNAME,
+							 MEMBER_ROUTE,
+							 COUNTRY_NO,
+							 MEMBER_CITY,
+							 MEMBER_INTRODUCE,
+							 MEMBER_HOMEPAGE,
+							 MEMBER_STATUS,
+							 EMAIL_RECEIVE,
+							 COMMUNITY_MEMBER_NO,
+							 SPONSOR_AMOUNT,
+							 LAST_DATETIME,
+							 REG_DATETIME,
+							 MOD_ADMIN_NO,
+							 MOD_DATETIME
+							 ) 
+                       VALUES (
+                       		 #{memberUserId},
+                       		 #{memberName},
+                       		 #{memberPwd},
+                       		 #{memberNickName},
+                       		 #{memberRoute},
+                       		 #{countryNo},
+                       		 #{memberCity},
+                       		 #{memberIntroduce},
+                       		 #{memberHomePage},
+                       		 #{memberStatus},
+                       		 #{emailReceive},
+                       		 #{communityMemberNo},
+                       		 #{sponsorAmout},
+                       		 #{lastDateTime},
+                       		 NOW(),
+                       		 #{modAdminNo},
+                       		 #{modDateTime}
+                       		 )	
+                       		 
+	   <selectKey keyProperty="memberNo" resultType="java.lang.Integer" order ="AFTER">
+		    SELECT LAST_INSERT_ID()
+	   </selectKey>					
+ 
+	</insert>
+		
+	<delete id="deleteUser" parameterType="com.ma2rix.music.model.domain.User">
+		DELETE FROM TBL_MEMBER WHERE MEMBER_NO = #{memberNo}
+	</delete>
+	
+	<update id="updateUser" parameterType="com.ma2rix.music.model.domain.User">
+		UPDATE TBL_MEMBER SET 
+							MEMBER_NAME = #{memberName},
+							MEMBER_PWD = #{memberPwd},
+							MEMBER_ROUTE = #{memberRoute},
+							MEMBER_IMAGE = #{memberImage},
+							COUNTRY_NO = #{countryNo},
+							MEMBER_CITY = #{memberCity},
+							MEMBER_INTRODUCE = #{memberIntroduce},
+							MEMBER_HOMEPAGE = #{memberHomePage},
+							HOMEPAGE_COMMENT = #{homePageComment},
+							MEMBER_STATUS = #{memberStatus},
+							EMAIL_RECEIVE = #{emailReceive},
+							COMMUNITY_MEMBER_NO = #{communityMemberNo},
+							SPONSOR_AMOUNT = #{sponsorAmout},
+							LAST_DATETIME = #{lastDateTime},
+							REG_DATETIME = #{regDateTime},
+							MOD_ADMIN_NO = #{modAdminNo},
+							MOD_DATETIME = #{modDateTime}	
+					WHERE MEMBER_NO = #{memberNo}
+							 
+	</update>
+</mapper>

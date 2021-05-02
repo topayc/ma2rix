@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.GenreMapper">
+	<cache />
+	<select id="getGenreCount"  resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_GENRE
+		]]>
+	</select>
+	
+	<select id="getAllGenres"  resultType="com.ma2rix.music.model.domain.Genre">
+		<![CDATA[
+			SELECT
+				GENRE_NO			AS genreNo			,
+				GENRE_NAME			AS genreName    	,
+				MUSIC_CLASS			AS musicClass		,
+				REG_MEMBER_NO		AS regMemberNo		,
+				REG_DATETIME		AS regDateTime		
+				
+			FROM
+				TBL_GENRE
+		]]>	
+	</select>
+	
+	<select id="getGenreByGenreNo"  parameterType = "int" resultType="com.ma2rix.music.model.domain.Genre" >
+		<![CDATA[
+			SELECT
+				GENRE_NO			AS genreNo			,
+				GENRE_NAME			AS genreName    	,
+				MUSIC_CLASS			AS musicClass		,
+				REG_MEMBER_NO		AS regMemberNo		,
+				REG_DATETIME		AS regDateTime	
+			FROM
+				TBL_GENRE
+			WHERE
+				GENRE_NO  = #{genreNo}
+		]]>	
+	</select>
+	
+	<insert id="insertGenre" parameterType ="com.ma2rix.music.model.domain.Genre" >
+		<![CDATA[
+			INSERT INTO
+				TBL_GENRE
+			(
+				GENRE_NAME			,
+				MUSIC_CLASS			,
+				REG_MEMBER_NO		,
+				REG_DATETIME		
+			)
+			VALUES
+			(	
+				#{genreName}		,
+				#{musicClass}		,
+				#{regMemberNo}		,
+				NOW()
+			)
+		]]>
+
+		<selectKey keyProperty="genreNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<delete id="deleteGenre" parameterType ="int" >
+		<![CDATA[
+			DELETE FROM
+				TBL_GENRE
+			WHERE
+				GENRE_NO	= #{genreNo}
+		]]>
+	</delete>
+	
+	
+
+	<update id="updateGenre" parameterType ="com.ma2rix.music.model.domain.Genre" >
+		<![CDATA[
+			UPDATE
+				TBL_GENRE
+			SET
+				GENRE_NAME 		= #{genreName}		,
+				MUSIC_CLASS 	= #{musicClass}		,
+			WHERE
+				GENRE_NO	= #{genreNo}
+		]]>
+	</update>
+	
+	
+	
+	
+</mapper>

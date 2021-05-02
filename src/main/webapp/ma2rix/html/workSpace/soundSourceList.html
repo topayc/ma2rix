@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>음원 리스트</title>
+    <link rel="stylesheet" type="text/css" href="../../common/css/default.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../../common/js/jquery-1.11.1.min.js"></script>
+    <script src="../../common/js/dropit.js"></script>
+    <script src="../../common/js/jquery.easydropdown.js"></script>
+    <script src="../../common/js/jquery.jplayer.min.js"></script><!-- 오디오 -->
+    <script src="../../common/js/ma2rixplayer.js"></script><!-- 오디오 -->
+    <script src="../../common/js/ui.js"></script>
+    <script>
+        var buttonSetType = "04"
+    </script>
+</head>
+<body>
+	<!-- 오디오 컨트롤러 셋 -->
+	<div id="audioSet"></div>
+	<!-- //오디오 컨트롤러 셋 -->
+	<div class="mrWrap">
+		<!-- header -->
+		<div class="mrHeader">
+			<div class="headerArea">
+	            <h1><a href="#none"><img src="../../images/logo.gif" alt="ma2rix"></a></h1>
+	            <div class="gnbWrap">
+		            <ul>
+		            	<li><a href="#none">워크스페이스</a></li>
+		                <li><a href="#none">작곡</a></li>
+		                <li><a href="#none">진행중인편곡</a></li>
+		                <li><a href="#none">완료된편곡</a></li>
+		                <li><a href="#none">곡리스트</a></li>
+		            </ul>
+		        </div>
+		        <div class="lnbWrap">
+	                <span class="mChart"><a class="btn ylw" href="#none"><span>Ma2rix Chart</span></a></span>
+	                <a class="bulInfo" title="알림" href="#none"><i class="fa fa-bell"></i></a>
+	                <a class="bulMail" title="메시지" href="#none"><i class="fa fa-envelope"></i></a>
+	                <a class="bulMail" title="다국어" href="#none"><i class="fa fa-globe"></i></a>
+               		<ul class="dropType1 dropStyle1">
+	                    <li>
+	                        <a class="btn topayc" href="#none"><span>Topayc</span><img src="../../images/arrow01.png" alt=""></a>
+	                        <ul>
+	                            <li><a href="#none">My Profile</a></li>
+	                            <li><a href="#none">My Playlist</a></li>
+	                            <li class="div"><a href="#none">My Fans</a></li>
+	                            <li><a href="#none">Workspace</a></li>
+	                            <li><a href="#none">My Message</a></li>
+	                            <li class="div"><a href="#none">My Income</a></li>
+	                            <li><a href="#none">Logout</a></li>
+	                        </ul>
+	                    </li>
+               		</ul>
+		    	</div>
+	    	</div>
+		</div>
+		<!-- //header -->
+		<!-- contents -->
+		<div class="mrContainer">
+			<div class="contents">
+				<div class="titleWrap">
+					<h2 class="testBtn">음원 리스트</h2>
+					<div class="arrayWrap">
+						<div class="listSearch"><input type="text"><i class="fa fa-search searchIcon"></i></div>
+						<div class="checkSelect">
+                            <select class="dropdown">
+                                <option value="">장르 카테고리</option>
+                                <option value="">팝</option>
+                                <option value="">발라드</option>
+                                <option value="">락, 발라드</option>
+                                <option value="">재즈</option>
+                                <option value="">etc</option>
+                            </select>
+						</div> 
+					</div>
+				</div>
+				<div class="listWrap">
+					<ul class="arrList">
+						<li class="secType1 oh">
+							<div class="coverArt">
+								<a href="#none"><img src="../../images/holderType3.gif" alt="" style="width: 110px; height: 110px;"></a>
+							</div>
+							<div class="soundArea">
+								<div class="soundHeader">
+									<a class="bulPlay data-sound-url" href="#none" data-sound-url=""><i class="fa fa-play-circle fa-2x"></i></a>
+									<span class="songTitle"><a href="#none">You raise up me</a></span>
+									<span class="songSinger"><a href="#none">ma2rix</a></span>
+									<a class="btn small btnPoint ctgView" href="#none"><span>rock</span></a>
+								</div>
+								<!-- 개발에서 확인요망 -->
+								<div class="soundBody">
+                                    <div class="pajaImg"><img src="../../images/holderType2.gif" alt="" style="width: 100%;"></div>
+                                    <div class="soundBar"></div>
+								</div>
+								<!-- //개발에서 확인요망 -->
+                                <div class="soundFooter">
+                                    <a class="btn large btnType1" href="#none"><span>Fan</span></a>
+                                    <a class="btn large btnType2" href="#none" data-showing="0"><span>Comment</span></a>
+                                    <a class="btn large btnType3" href="#none"><span>연주자 현황</span></a>
+                                    <a class="btn large btnPoint btnType4" href="#none"><span>참여하기</span></a>
+                                    <a class="btn large btnType5" href="#none"><span>Play list</span></a>
+                                    <a class="btn large btnType6" href="#none"><span>맵보기</span></a>
+                                    <a class="btn large btnPoint btnType7" href="#none"><span>구매</span></a>
+                                    <a class="btn large btnType8" href="#none"><span>악보</span></a>
+                                    <a class="btn large btnType9" href="#none"><span>SponsorsShip</span></a>
+                                    <a class="btn large btnType10" href="#none"><span>편곡 보컬 참여</span></a>
+                                    <a class="btn large btnType11" href="#none"><span><i class="fa fa-share-square-o"></i> Share</span></a>
+                                    <ul class="soundFooterRight">
+                                        <li>
+                                            <i class="fa fa-heart"></i>
+                                            <strong>15</strong>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-download"></i>
+                                            <strong>100</strong>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-dollar"></i>
+                                            <strong>100,000</strong>
+                                        </li>
+                                    </ul>
+                                </div>
+								<div class="commentWrap">
+	                                <span class="commetText">comment</span>
+									<input type="text" style="width: 700px;" placeholder="글을 입력 하세요">
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				
+				<!-- layer popup : 스폰서 -->
+                <div class="layer">
+                    <div class="bg"></div>
+	                <div id="vocalSearch" class="pop-layer">
+	                	<div class="layerPopupWrap">
+	                		<h3>Sponsor</h3>
+	                		<div class="popCont">
+	                			<div class="arrInfoWrap floatL pd0">
+	                				<h4>금액</h4>
+	                			</div>
+		                		<div class="floatL mb10 ml10">
+			                		<select class="dropdown" name="">
+			                            <option>1$</option>
+			                            <option>2$</option>
+			                            <option>3$</option>
+			                            <option>4$</option>
+			                            <option>5$</option>
+			                            <option>6$</option>
+			                            <option>7$</option>
+			                            <option>8$</option>
+			                            <option>9$</option>
+			                            <option>10$</option>
+			                        </select>
+			                    </div>
+			                    <div class="contBox01">
+			                    	<ul>
+			                    		<li>스폰 금액은 최대 10달러 까지 가능합니다.</li>
+			                    		<li>스폰 금액은 실제 결제되는 것이 아니라, 입력하신 금액에 대응하는 포인트로 보컬에게 부여됩니다.</li>
+			                    	</ul>
+			                    </div>
+		                        <div class="textC mt20">
+		                        	<a class="btn large btnPoint btnClose" href="#none"><span>취소</span></a>
+		                        	<a class="btn large btnPoint btnClose" href="#none"><span>확인</span></a>
+		                        </div>
+	                        </div>
+	                	</div> 
+	                </div>
+	            </div>
+	            <!-- //layer popup : 스폰서 -->
+	            
+			</div>
+			<!-- footer -->
+			<div class="mrFooter">
+				<div class="footerArea">
+					온라인 음원 제작 사이트 MA2RIX <br>Copyrightⓒ. 2014. MA2RIX. All Rights Reserved.
+				</div>
+			</div>
+			<!-- //footer -->
+		</div>
+		<!-- //contents -->
+	</div>
+</body>
+</html>

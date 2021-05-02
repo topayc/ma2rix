@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.MemberLinkMapper">
+
+	<cache />
+	
+	<select id="getMemberLinksByUser" parameterType="int" resultType="com.ma2rix.music.model.domain.MemberLink">
+		SELECT 	LINK_NO AS linkNo,
+				MEMBER_NO AS memberNo,
+				MEMBER_LINK AS memberLink,
+				LINK_COMMENT AS linkComment,
+				REG_DATETIME as regDateTime
+		FROM TBL_MEMBER_LINK 
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="getMemberLinksByMemberNo" parameterType="int" resultType="com.ma2rix.music.model.domain.MemberLink">
+		SELECT 	LINK_NO AS linkNo,
+				MEMBER_NO AS memberNo,
+				MEMBER_LINK AS memberLink,
+				LINK_COMMENT AS linkComment,
+				REG_DATETIME as regDateTime
+		FROM TBL_MEMBER_LINK 
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<insert id="insertMemberLink" parameterType="com.ma2rix.music.model.domain.MemberLink">
+		INSERT INTO TBL_MEMBER_LINK 
+			(MEMBER_NO,MEMBER_LINK,LINK_COMMENT, REG_DATETIME)
+		VALUES 
+			(
+			 #{memberNo},
+			 #{memberLink},
+			 #{linkComment},
+			 NOW()
+   		    ) 
+		  
+	   <selectKey keyProperty="linkNo" resultType="java.lang.Integer" order ="AFTER">
+		    SELECT LAST_INSERT_ID()
+	   </selectKey>	
+	</insert>
+	
+	<delete id="deleteMemberLink" parameterType="com.ma2rix.music.model.domain.MemberLink">
+		delete from TBL_MEMBER_LINK where member_no = #{memberNo}
+	</delete>
+	
+	<delete id="deleteAllMemberLinksByMemberNo" parameterType="int">
+		delete from TBL_MEMBER_LINK where member_no = #{memberNo}
+	</delete>
+	
+	<update id="updateMemberLink" parameterType="com.ma2rix.music.model.domain.MemberLink">
+		UPDATE TBL_MEMBER_LINK SET
+			MEMBER_NO = #{memberNo},
+			MEMBER_LINK = #{memberLink},
+			LINK_COMMENT = #{linkComment},
+			REG_DATETEIM = #{regDateTime}
+		WHERE MEMBER_NO = #{memberNo} 
+	</update>
+	
+	</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.PaymentMapper">
+	<cache />
+	<select id = "getPaymentCount" resultType = "int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_PAYMENT
+		]]>
+	</select>
+	
+	<select id="getPaymentByPayNo" parameterType="int" resultType="com.ma2rix.music.model.domain.Payment">
+		<![CDATA[
+			SELECT
+				PAY_NO					as payNo				,
+				PAY_DATE				as payDate				,
+				PAY_TIME				as payTime				,
+				PAY_MEMBER_NO			as payMemberNo			,
+				PAY_AMOUNT				as payAmount			,
+				PAY_FEE					as payFee				,
+				PG_NO					as pgNo					,
+				PAY_CARD				as pgCard				,
+				PAY_TID					as payTid				,
+				PAY_AUTH_CODE			as payAuthCode			,
+				PAY_RESULT_CODE			as payResultCode		,
+				PAY_RESULT_MSG			as payResultMsg			,
+				PAY_AUTH_DATE			as payAuthDate			,
+				PAY_AUTH_TIME			as payAuthTime			,
+				PAY_CANCEL_DATE			as payCancelDate		,
+				PAY_CANCEL_TIME			as payCancelTime		,
+				PAY_TYPE				as payType				,
+				PAY_STATUS				as payStatus			,
+				REG_DATETIME			as regDateTime			,
+				MOD_DATETIME			as modDateTime				 			
+			FROM 
+				TBL_PAYMENT
+			WHERE 
+				PAY_NO = #{payNo}
+		]]>
+	</select>
+	
+	<insert id ="insertPayment" parameterType ="com.ma2rix.music.model.domain.Payment">
+		<![CDATA[
+			INSERT INTO 
+				TBL_PAYMENT
+			(	
+				PAY_DATE				,
+				PAY_TIME				,
+				PAY_MEMBER_NO			,
+				PAY_AMOUNT				,
+				PAY_FEE					,
+				PG_NO					,
+				PAY_CARD				,
+				PAY_TID					,
+				PAY_AUTH_CODE			,
+				PAY_RESULT_CODE			,
+				PAY_RESULT_MSG			,
+				PAY_AUTH_DATE			,
+				PAY_AUTH_TIME			,
+				PAY_CANCEL_DATE			,
+				PAY_CANCEL_TIME			,
+				PAY_TYPE				,
+				PAY_STATUS				,
+				REG_DATETIME			,
+				MOD_DATETIME				
+			)
+			VALUES 
+			(
+				#{payDate}				,
+				#{payTime}				,
+				#{payMemberNo}			,
+				#{payAmunt}				,
+				#{payFee}				,
+				#{pgNo}					,
+				#{p[ayCard}				,
+				#{payTid}				,
+				#{payAuthCode}			,
+				#{payResultCode}		,
+				#{payResultMsg}			,
+				#{payAuthDate}			,
+				#{payAuthTime}			,
+				#{payCancelDate}		,
+				#{payCancelTime}		,
+				#{payType}				,
+				#{payStatus}			,
+				NOW()					,
+				NOW()							
+			)
+		]]>
+		
+		<selectKey keyProperty="payNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		
+	</insert>
+
+	<update id = "updatePayment" parameterType= "com.ma2rix.music.model.domain.Payment">
+		<![CDATA[
+			UPDATE 
+				TBL_PAYMENT
+			SET 
+				PAY_DATE			= #{payDate}			,
+				PAY_TIME			= #{payTime}			,
+				PAY_MEMBER_NO		= #{payMemberNo}		,
+				PAY_AMOUNT			= #{payAmunt}			,
+				PAY_FEE				= #{payFee}				,
+				PG_NO				= #{pgNo}				,
+				PAY_CARD			= #{p[ayCard}			,
+				PAY_TID				= #{payTid}				,
+				PAY_AUTH_CODE		= #{payAuthCode}		,
+				PAY_RESULT_CODE		= #{payResultCode}		,
+				PAY_RESULT_MSG		= #{payResultMsg}		,
+				PAY_AUTH_DATE		= #{payAuthDate}		,
+				PAY_AUTH_TIME		= #{payAuthTime}		,
+				PAY_CANCEL_DATE		= #{payCancelDate}		,
+				PAY_CANCEL_TIME		= #{payCancelTime}		,
+				PAY_TYPE			= #{payType}			,
+				PAY_STATUS			= #{payStatus}			,
+				-- REG_DATETIME		= NOW()					,
+				MOD_DATETIME		= NOW()	
+			WHERE 
+				PAY_NO = #{payNo}
+		]]>
+	</update>	
+	
+	
+	<delete id = "deletePayment" parameterType = "int" >
+		<![CDATA[
+			DELETE FROM 
+				TBL_PAYMENT
+			WHERE 
+				PAY_NO = #{payNo} 
+		]]>
+	</delete>	
+	
+</mapper>

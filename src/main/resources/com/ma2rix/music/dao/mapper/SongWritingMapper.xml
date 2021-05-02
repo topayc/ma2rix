@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.SongWritingMapper">
+	<cache />
+	
+	<select id = "getWritingCount" resultType = "int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_SONGWRITING
+		]]>
+	</select>
+	
+	<select id ="getAllWritings" resultType = "com.ma2rix.music.model.domain.SongWriting">
+		<![CDATA[
+			SELECT
+				WRITE_NO						as writeNo				,
+				ARRANGE_NO						as arrangeNo			,
+				WRITE_MEMBER_NO					as write_member_no		,
+				WRITE_TITLE						as writeTitle			,
+				WRITE_INTENT					as writeIntent			,
+				WRITE_WORDS						as writeWords			,
+				LANGUAGE_NO						as languageNo			, 
+				VOCAL_COUNT						as vocalCount			,
+				FAN_COUNT						as fanCount				,
+				WRITE_HITS						as writeHits			,
+				WRITE_STATUS					as writeStatus			,
+				REG_DATETIME					as regDateTime			,
+				MOD_ADMIN_NO					as modAdminNo			,
+				MODE_DATETIME					as modDateTime
+			FROM 
+				TBL_SONGWRITING
+		]]>
+	</select>
+	
+	<select id="getWritingByWriteNo" parameterType="int" resultType="com.ma2rix.music.model.domain.SongWriting">
+		<![CDATA[
+			SELECT
+				WRITE_NO						as writeNo				,
+				ARRANGE_NO						as arrangeNo			,
+				WRITE_MEMBER_NO					as write_member_no		,
+				WRITE_TITLE						as writeTitle			,
+				WRITE_INTENT					as writeIntent			,
+				WRITE_WORDS						as writeWords			,
+				LANGUAGE_NO						as languageNo			, 
+				VOCAL_COUNT						as vocalCount			,
+				FAN_COUNT						as fanCount				,
+				WRITE_HITS						as writeHits			,
+				WRITE_STATUS					as writeStatus			,
+				REG_DATETIME					as regDateTime			,
+				MOD_ADMIN_NO					as modAdminNo			,
+				MODE_DATETIME					as modDateTime
+				
+			FROM 
+				TBL_SONGWRITING
+			where 
+				WRITE_NO = #{writeNo}
+		]]>
+	</select>
+	
+	
+	<select id="getWritingsByWriteMemberNo" parameterType="int" resultType="com.ma2rix.music.model.domain.SongWriting">
+		<![CDATA[
+			SELECT
+				WRITE_NO						as writeNo				,
+				ARRANGE_NO						as arrangeNo			,
+				WRITE_MEMBER_NO					as write_member_no		,
+				WRITE_TITLE						as writeTitle			,
+				WRITE_INTENT					as writeIntent			,
+				WRITE_WORDS						as writeWords			,
+				LANGUAGE_NO						as languageNo			, 
+				VOCAL_COUNT						as vocalCount			,
+				FAN_COUNT						as fanCount				,
+				WRITE_HITS						as writeHits			,
+				WRITE_STATUS					as writeStatus			,
+				REG_DATETIME					as regDateTime			,
+				MOD_ADMIN_NO					as modAdminNo			,
+				MODE_DATETIME					as modDateTime
+			FROM 
+				TBL_SONGWRITING
+			WHERE 
+				WRITE_MEMBER_NO = #{writeMemberNo}
+		]]>
+	</select>
+	
+	<insert id ="insertWriting" parameterType ="com.ma2rix.music.model.domain.SongWriting">
+		<![CDATA[
+			INSERT INTO 
+				TBL_SONGWRITING
+			(	
+				ARRANGE_NO					,
+				WRITE_MEMBER_NO				,
+				WRITE_TITLE					,
+				WRITE_INTENT				,
+				WRITE_WORDS					,
+				LANGUAGE_NO					, 
+				VOCAL_COUNT					,
+				FAN_COUNT					,
+				WRITE_HITS					,
+				WRITE_STATUS				,
+				REG_DATETIME				,
+				MOD_ADMIN_NO				,
+				MODE_DATETIME		
+			)
+			VALUES 
+			(
+				#{arrangeNo}				,
+				#{writeMemberNo}	    	,
+				#{writeTitle}				,
+				#{writeIntent}				,
+				#{writeWords}				,
+				#{languageNo}				,
+				#{vocalCount}				,
+				#{fanCount}					,
+				#{writeHits}				,
+				#{writeStatus}				,
+				MOW()						,
+				#{modAdminNo}				,
+				NOW()
+			)
+		]]>
+		
+		<selectKey keyProperty="writeNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<update id = "updateWriting" parameterType= "com.ma2rix.music.model.domain.SongWriting">
+		<![CDATA[
+			UPDATE 
+				TBL_SONGWRITING
+			SET 
+				WRITE_MEMBER_NO			= #{writeMemberNo}			,
+				WRITE_TITLE				= #{write_title}			,
+				WRITE_INTENT			= #{write_intent}			,
+				WRITE_WORDS				= #{write_words}			,
+				LANGUAGE_NO				= #{languageNo}				, 
+				VOCAL_COUNT				= #{vocalCount}				,
+				FAN_COUNT				= #{fanCount}				,
+				WRITE_HITS				= #{writeHits}				,
+				WRITE_STATUS			= #{write_status}			
+			WHERE 
+				WRITE_NO = #{writeNo}
+		]]>
+	</update>	
+	
+	<delete id = "deleteWriting" parameterType ="int">
+		<![CDATA[
+			DELETE FROM 
+				TBL_SONGWRITING
+			WHERE write_NO = #{writeNo}
+		]]>
+	</delete>	
+	
+	<delete id = "deleteWritingssByWriteMemberNo" parameterType ="int">
+		<![CDATA[
+			DELETE FROM 
+				TBL_SONGWRITING
+			WHERE WRITE_MEMBER_NO = #{writeMemberNo}
+		]]>
+	</delete>	
+</mapper>

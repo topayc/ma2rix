@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.CommentMapper">
+
+	<select id="getCommentsCount" parameterType="string" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_COMMENT
+			WHERE
+				MUSIC_CLASS_NO = #{musicClassNo}
+		]]>
+	</select>
+	
+	<select id="getAllComments"  resultType="com.ma2rix.music.model.domain.Comment">
+		<![CDATA[
+			SELECT
+				COMMENT_NO					as commentNo			,
+				COMMENT_CONTENTS			as commentContents		,
+				MEMBER_NO					as memberNo				,
+				MUSIC_CLASS_NO				as musicClassNo			,
+				MUSIC_NO					as mucisNo				,
+				REG_DATETIME				as regDateTime																
+			FROM
+				TBL_COMMENT
+			WHERE
+				MUSIC_CLASS_NO = #{musicClassNo}
+			ORDER BY 
+				COMMENT_NO DESC
+		]]>	
+	</select>
+	
+	
+	
+	
+	<select id="getAllComments2" parameterType="string" resultType="com.ma2rix.music.model.command.CommentCommand">
+			SELECT 
+				M.MEMBER_USERID			as memberUserId		,
+				C.COMMENT_CONTENTS		as commentContents	,
+				C.REG_DATETIME			as regDatetime		,
+				C.MUSIC_CLASS_NO		as musicClassNo		,
+				F.WEB_PATH				as webPath			,
+				F.FILE_PATH				as filePath			,
+				F.FILE_NAME 			as fileName			,
+				F.FILE_NAME2 			as fileName2
+			FROM 	
+				TBL_COMMENT AS C 
+			LEFT OUTER JOIN TBL_MEMBER AS M 
+			ON (
+				C.MEMBER_NO=M.MEMBER_NO
+			) LEFT OUTER JOIN TBL_ATTACH_MUSIC AS F
+			ON(
+				C.MUSIC_NO = F.MUSIC_NO
+			)
+		    WHERE
+		    	C.MUSIC_CLASS_NO = ${musicClassNo}
+		    ORDER BY 
+		    	C.COMMENT_NO DESC
+	</select>
+	
+	
+	
+	
+	
+	<select id="getCommentCommandList"  resultType="com.ma2rix.music.model.command.CommentCommand">
+			SELECT 
+				M.MEMBER_USERID			as memberUserId		,
+				C.COMMENT_CONTENTS		as commentContents	,
+				C.REG_DATETIME			as regDatetime		,
+				C.MUSIC_CLASS_NO		as musicClassNo		,
+				F.WEB_PATH				as webPath			,
+				F.FILE_PATH				as filePath			,
+				F.FILE_NAME 			as fileName			,
+				F.FILE_NAME2 			as fileName2
+			FROM 
+				TBL_COMMENT AS C 
+			LEFT OUTER JOIN TBL_MEMBER AS M 
+			ON (
+				C.MEMBER_NO=M.MEMBER_NO
+			) LEFT OUTER JOIN TBL_ATTACH_MUSIC AS F
+			ON(
+				C.MUSIC_NO = F.MUSIC_NO
+			) WHERE 
+				1 = 1
+		<if test="musicClassNo != 0">
+			AND
+			C.MUSIC_CLASS_NO = #{musicClassNo}
+		</if>
+		<if test="pageCount != 0">
+			LIMIT #{pageCount}, #{pageOffset}
+		</if>
+	</select>
+		
+	
+	
+	<select id="getCommentByCommentNo" parameterType ="int" resultType="com.ma2rix.music.model.domain.Comment" >
+		<![CDATA[
+			SELECT
+				COMMENT_NO					as commentNo			,
+				COMMENT_CONTENTS			as commentContents		,
+				MEMBER_NO					as memberNo				,
+				MUSIC_CLASS_NO				as musicClassNo			,
+				MUSIC_NO					as mucisNo				,
+				REG_DATETIME				as regDateTime
+			FROM
+				TBL_COMMENT
+			WHERE
+				COMMENT_NO  = #{commentNo}
+		]]>	
+	</select>
+	
+	
+	
+	<select id="getCommentsByMusicClassNoAndMusicNo" resultType="com.ma2rix.music.model.domain.Comment" >
+		<![CDATA[
+			SELECT
+				COMMENT_NO					as commentNo			,
+				COMMENT_CONTENTS			as commentContents		,
+				MEMBER_NO					as memberNo				,
+				MUSIC_CLASS_NO				as musicClassNo			,
+				MUSIC_NO					as mucisNo				,
+				REG_DATETIME				as regDateTime
+			FROM
+				TBL_COMMENT
+			WHERE
+				MUSIC_CLASS_NO = #{musicClassNo} and MUSIC_NO = #{musicNo}
+		]]>	
+	</select>
+	
+	<select id="getCommentsByMemberNo" resultType="com.ma2rix.music.model.domain.Comment" >
+		<![CDATA[
+			SELECT
+				COMMENT_NO					as commentNo			,
+				COMMENT_CONTENTS			as commentContents		,
+				MEMBER_NO					as memberNo				,
+				MUSIC_CLASS_NO				as musicClassNo			,
+				MUSIC_NO					as mucisNo				,
+				REG_DATETIME				as regDateTime
+			FROM
+				TBL_COMMENT
+			WHERE
+				MEMBER_NO = #{memberNo}
+		]]>	
+	</select>
+	
+	
+	<insert id="insertComment" parameterType ="com.ma2rix.music.model.domain.Comment" >
+		<![CDATA[
+			INSERT INTO
+				TBL_COMMENT
+			(
+				COMMENT_CONTENTS			,
+				MEMBER_NO					,
+				MUSIC_CLASS_NO				,
+				MUSIC_NO					,
+				REG_DATETIME			
+			)
+			VALUES
+			(	
+				#{commentContents}			,
+				#{memberNo}					,
+				#{musicClassNo}				,
+				#{musicNo}					,
+				NOW()
+			)
+		]]>
+
+		<selectKey keyProperty="commentNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<delete id="deleteComment" parameterType ="int" >
+		DELETE FROM
+			TBL_COMMENT
+		WHERE
+			COMMENT_NO	= #{commentNo}
+	</delete>
+	
+	
+
+	<update id="updateComment" parameterType ="com.ma2rix.music.model.domain.Comment" >
+		UPDATE
+			TBL_COMMENT
+		SET
+			comment_contents    = #{commentContents}		,
+			member_no			= #{memberNo}				,
+			music_class_no		= #{musicClassNo}			,
+			music_no			= #{musicNo}				,
+		WHERE
+				COMMENT_NO	= #{commentNo}
+	</update>
+	
+</mapper>

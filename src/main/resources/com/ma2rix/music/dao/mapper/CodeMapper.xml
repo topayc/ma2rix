@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.CodeMapper">
+	
+	<select id="getCodeByCodeId" parameterType="string" resultType="com.ma2rix.music.model.domain.Code">
+		SELECT 
+			CLASS_CODE_NO 			AS classCodeNo		,
+			CODE_NO 				AS codeNo			,
+			CODE_NAME 				AS codeName			,
+			CODE_NAME2 				AS codeName2		,
+			CODE_NAME3 				AS codeName3		,
+			CODE_SORT 				AS codeSort			,
+			USE_STATUS 				AS useStatus		,
+			CLASS_REMARKS 			AS classRemarks		,
+			REG_ADMIN_NO 			AS regAdminNo		,
+			REG_DATETIME 			AS regDateTime		,
+			MOD_ADMIN_NO 			AS modAdminNo		,
+			MOD_DATETIME 			AS modDateTime
+		FROM 
+			TBL_CODE 
+		WHERE 
+			CODE_NO = #{codeNo}
+	</select>
+	
+	<select id="getCode" parameterType ="com.ma2rix.music.model.domain.Code" 
+		resultType="com.ma2rix.music.model.domain.Code">
+	</select>
+	
+	<select id="getCodesByCodeClass" parameterType ="com.ma2rix.music.model.domain.CodeClass" 
+	resultType="com.ma2rix.music.model.domain.Code" >
+	</select>
+	
+	<select id="getCodesByCodeClassId" parameterType ="string" 
+		resultType="com.ma2rix.music.model.domain.Code" >
+		SELECT 
+			CLASS_CODE_NO 			AS classCodeNo		,
+			CODE_NO 				AS codeNo			,
+			CODE_NAME 				AS codeName			,
+			CODE_NAME2 				AS codeName2		,
+			CODE_NAME3 				AS codeName3		,
+			CODE_SORT 				AS codeSort			,
+			USE_STATUS 				AS useStatus		,
+			CLASS_REMARKS 			AS classRemarks		,
+			REG_ADMIN_NO 			AS regAdminNo		,
+			REG_DATETIME 			AS regDateTime		,
+			MOD_ADMIN_NO 			AS modAdminNo		,
+			MOD_DATETIME 			AS modDateTime
+		FROM 
+			TBL_CODE 
+		WHERE 
+			CLASS_CODE_NO = #{codeClassId}
+	</select>
+	
+	<select id="getAllCodes" resultType="com.ma2rix.music.model.domain.Code">
+		SELECT 
+			CLASS_CODE_NO 			AS classCodeNo		,
+			CODE_NO 				AS codeNo			,
+			CODE_NAME 				AS codeName			,
+			CODE_NAME2 				AS codeName2		,
+			CODE_NAME3 				AS codeName3		,
+			CODE_SORT 				AS codeSort			,
+			USE_STATUS 				AS useStatus		,
+			CLASS_REMARKS 			AS classRemarks		,
+			REG_ADMIN_NO 			AS regAdminNo		,
+			REG_DATETIME 			AS regDateTime		,
+			MOD_ADMIN_NO 			AS modAdminNo		,
+			MOD_DATETIME 			AS modDateTime
+		FROM 
+			TBL_CODE 
+	</select>
+
+</mapper>

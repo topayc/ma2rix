@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.CodeClassMapper">
+
+  <select id="getAllCodeClasses" resultType="com.ma2rix.music.model.domain.CodeClass">
+		SELECT 
+			CODE_CLASS_NO as codeClassNo,
+			CODE_CLASS_NAME AS codeClassName,
+			USE_STATUS AS useStatus,
+			CLASS_REMARKS AS classRemarks,
+			REG_ADMIN_NO AS regAdminNo,
+			REG_DATETIME AS regDateTime,
+			MOD_ADMIN_NO AS modAdminNo,
+			MOD_DATETIME AS modDateTime
+		FROM TBL_CODE_CLASS 
+	</select>
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.LanguageMapper">
+	<cache />
+	<select id = "getProvidedLanguageCount" resultType = "int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_LANGUAGE
+		]]>
+	</select>
+	
+	<select id ="getAllLanguages" resultType = "com.ma2rix.music.model.domain.Language">
+		<![CDATA[
+			SELECT
+				LANGUAGE_NO 				    as languageNo			,
+				LANGUAGE_NAME				    as languageName			,
+				LANGUAGE_FULL_NAME				as languageFullName		,
+				LANGUAGE_FULL_ENAME				as languageFullEname	,
+				USE_STATUS						as useStatus			,
+				REG_ADMIN_NO					as regAdminNo			,
+				REG_DATETIME					as regDateTime			,
+				MOD_ADMIN_NO					as modAdminNo			,
+				MOD_DATETIME					as modDateTime				
+			FROM 
+				TBL_LANGUAGE
+		]]>
+	</select>
+	
+	<select id="getLanguageByLanguageNo" parameterType="int" resultType="com.ma2rix.music.model.domain.Language">
+		<![CDATA[
+			SELECT
+				LANGUAGE_NO 				    as languageNo			,
+				LANGUAGE_NAME				    as languageName			,
+				LANGUAGE_FULL_NAME				as languageFullName		,
+				LANGUAGE_FULL_ENAME				as languageFullEname	,
+				USE_STATUS						as useStatus			,
+				REG_ADMIN_NO					as regAdminNo			,
+				REG_DATETIME					as regDateTime			,
+				MOD_ADMIN_NO					as modAdminNo			,
+				MOD_DATETIME					as modDateTime				
+			FROM 
+				TBL_LANGUAGE
+			where 
+				LANGUAGE_NO = #{languageNo}
+		]]>
+	</select>
+	
+	<insert id ="insertLanguage" parameterType ="com.ma2rix.music.model.domain.Language">
+		<![CDATA[
+			INSERT INTO 
+				TBL_LANGUAGE
+			(	
+				LANGUAGE_NAME						,
+				LANGUAGE_FULL_NAME					,
+				LANGUAGE_FULL_ENAME					,
+				USE_STATUS							,
+				REG_ADMIN_NO						,
+				REG_DATETIME						, 
+				MOD_ADMIN_NO						,
+				MOD_DATETIME						
+			)
+			VALUES 
+			(
+				#{languageName}						,
+				#{languageFullName}	    			,
+				#{languageFullEname}				,
+				#{use_status}						,
+				#{regAdminNo}						,
+				NOW()								,
+				#{modAdminNo}						,
+				#{modDateTime}						
+			)
+		]]>
+		
+		<selectKey keyProperty="languageNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		
+	</insert>
+
+	<update id = "updateLanguage" parameterType= "com.ma2rix.music.model.domain.Language">
+		<![CDATA[
+			UPDATE 
+				TBL_LANGUAGE
+			SET 
+				LANGUAGE_NAME				= #{languageName}				,
+				LANGUAGE_FULL_NAME			= #{languageFullName}			,
+				LANGUAGE_FULL_ENAME			= #{languageFullEname}			,
+				USE_STATUS					= #{useStatus}					,
+				-- REG_ADMIN_NO				= #{regAdminNo}					, 
+				-- REG_DATETIME				= #{regDateTime}				,
+				-- MOD_ADMIN_NO				= #{modAdminNo}					,
+				-- MOD_DATETIME				= #{modDateTime}
+			WHERE 
+				LANGUAGE_NO = #{languageNo}
+		]]>
+	</update>	
+	
+	
+	<delete id = "deleteLanguage" parameterType ="int">
+		<![CDATA[
+			DELETE FROM 
+				TBL_LANGUAGE
+			WHERE LANGUAGE_NO = #{languageNo}
+		]]>
+	</delete>	
+	
+</mapper>

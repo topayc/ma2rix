@@ -1,0 +1,48 @@
+/* 회원가입 페이지 공통 */
+h3.tit {display:block;font-size:30px; line-height:30px; margin-top:100px;color:#000; border-bottom:4px solid #fd4f3e; padding:0 0 10px 0;}
+div.login{float:left; width:100%; margin-top:80px; }
+table.login {float:left; width:450px;}
+table.login th,table.join td {}
+table.login th {text-indent:20px; text-align: left; color:#000; font-size:16px;position: absolute;padding-top: 7px;}
+table.login tr {height:53px;}
+table.login td {padding:0px;margin: 0px;vertical-align: initial;}
+
+div.login label{float:none;}
+#login_box {border-radius:5px; width: 100px; height: 85px; background-color:#fd4f3e; color:white; font-size:16px;font-weight:bold;cursor:pointer;margin:0 0 10px 10px;}
+.login_bottom {background-color:#F6F6F6; height:45px;border-top:1px solid #B8B8B8;border-bottom:1px solid #E3E3E3; font-size:14px;padding:20px 0 0 0;}
+.login_bottom .btn-ms2{width:100px; height: 25px;border:1px solid #B8B8B8;padding:5px 10px 5px 10px;border-radius:3px;cursor:pointer;background-color: #FFF;color: #232323;}
+
+
+
+div.pw, div.id_sh{float:left; width:100%; margin-top:80px; }
+table.pw,table.id_sh{float:left; width:450px;}
+table.pw th,table.join td {}
+table.pw th,table.id_sh th {text-indent:20px; text-align: left; color:#000; font-size:16px;position: absolute;padding-top: 7px;}
+table.pw tr,table.id_sh tr {height:53px;}
+table.pw td,table.id_sh td {padding:0px;margin: 0px;}
+
+#pw_box , #id_sh_box { border-radius:5px; width: 80px; height: 35px; background-color:#fd4f3e; color:white; font-size:16px;font-weight:bold;padding:5px 0 5px 0;cursor:pointer;margin: 0 0 15px 10px;}
+.pw_bottom ,.id_sh_bottom {background-color:#F6F6F6; height:45px;border-top:1px solid #B8B8B8;border-bottom:1px solid #E3E3E3; font-size:14px;padding:20px 0 0 0;}
+.pw_bottom .btn-ms2 ,.id_sh_bottom .btn-ms2{width:100px; height:40px;border:1px solid #B8B8B8;padding:5px 10px 5px 10px;border-radius:3px;cursor:pointer;background-color: #FFF;color: #232323;}
+
+form#pw .dp_none , form#id_sh .dp_none  { display:none; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

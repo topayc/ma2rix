@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>작곡 등록</title>
+    <link rel="stylesheet" type="text/css" href="../../common/css/default.css">
+    <script src="../../common/js/jquery-1.11.1.min.js"></script>
+    <script src="../../common/js/dropit.js"></script>
+    <script src="../../common/js/jquery.easydropdown.js"></script>
+    <script src="../../common/js/jquery.jplayer.min.js"></script><!-- 오디오 -->
+    <script src="../../common/js/ma2rixplayer.js"></script><!-- 오디오 -->
+    <script src="../../common/js/ui.js"></script>
+</head>
+<body>
+	<!-- 오디오 컨트롤러 셋 -->
+	<div id="audioSet"></div>
+	<!-- //오디오 컨트롤러 셋 -->
+    <div class="mrWrap">
+        <!-- header -->
+		<div class="mrHeader">
+			<div class="headerArea">
+	            <h1><a href="#none"><img src="../../images/logo.gif" alt="ma2rix"></a></h1>
+	            <div class="gnbWrap">
+		            <ul>
+		            	<li><a href="#none">워크스페이스</a></li>
+		                <li><a href="#none">작곡</a></li>
+		                <li><a href="#none">진행중인편곡</a></li>
+		                <li><a href="#none">완료된편곡</a></li>
+		                <li><a href="#none">곡리스트</a></li>
+		            </ul>
+		        </div>
+		        <div class="lnbWrap">
+	                <span class="mChart"><a class="btn ylw" href="#none"><span>Ma2rix Chart</span></a></span>
+	                <a class="bulInfo" title="알림" href="#none"><i class="fa fa-bell"></i></a>
+	                <a class="bulMail" title="메시지" href="#none"><i class="fa fa-envelope"></i></a>
+	                <a class="bulMail" title="다국어" href="#none"><i class="fa fa-globe"></i></a>
+               		<ul class="dropType1 dropStyle1">
+	                    <li>
+	                        <a class="btn topayc" href="#none"><span>Topayc</span><img src="../../images/arrow01.png" alt=""></a>
+	                        <ul>
+	                            <li><a href="#none">My Profile</a></li>
+	                            <li><a href="#none">My Playlist</a></li>
+	                            <li class="div"><a href="#none">My Fans</a></li>
+	                            <li><a href="#none">Workspace</a></li>
+	                            <li><a href="#none">My Message</a></li>
+	                            <li class="div"><a href="#none">My Income</a></li>
+	                            <li><a href="#none">Logout</a></li>
+	                        </ul>
+	                    </li>
+               		</ul>
+		    	</div>
+	    	</div>
+		</div>
+		<!-- //header -->
+        <!-- contents -->
+        <div class="mrContainer">
+            <div class="contents">
+            	<div class="titleWrap">
+					<h2 class="testBtn">작곡 등록</h2>
+				</div>
+                <div class="hType1">
+                    <h3>곡 제목</h3>
+                    <p>등록하시려는 곡의 제목을 입력해주세요.</p>
+                </div>
+                <div class="mb20"><input type="text" style="width: 914px"></div>
+                <div class="hType1">
+                    <h3>곡 이미지</h3>
+                </div>
+                <div class="arrInfoWrap">
+                    <div class="floatL"><img src="../../images/holderType3.gif" alt=""></div>
+                    <div class="imgUpload">
+                    	<div class="floatL"><a class="uploadBtn" href="#none"><span>파일선택</span></a></div>
+                    	<p class="uploadPut"></p>
+                   		<p>* 업로드 된 이미지는 곡이 게재될 시 같이 보여집니다.</p>
+                   	</div>
+                </div>
+                <div class="hType1">
+                    <h3>작곡 설명</h3>
+                    <p>곡에 대한 설명을 입력해주세요.</p>
+                </div>
+                <textarea cols="50" rows="5" placeholder="작곡자 메모 내용 삽입" style="width: 908px"></textarea>
+                <div class="hType1">
+                    <h3>작곡 업로드 <strong class="pointColor">(필수 1개)</strong></h3>
+                    <p>작곡 악보나 작곡 음원을 업로드 할 수 있습니다. 업로드 한 파일은 작곡 리스트에서 보여집니다.</p>
+                </div>
+                <div class="arrInfoWrap">
+                	<div class="floatL"><a class="uploadBtn" href="#none"><span>파일선택</span></a></div>
+                    <p class="uploadPut"></p>
+                    <div class="floatL"><a class="uploadBtn" href="#none"><span>파일선택</span></a></div>
+                    <p class="uploadPut"></p>
+                </div>
+                <div class="hType1">
+                    <h3>배포 가격 및 정산율 <strong class="pointColor">(필수)</strong></h3>
+                </div>
+                <div class="arrInfoWrap">
+                    <div class="contBox01 mb20">
+                    	<ul>
+	                		<li>자신의 곡을 무료와 유료로 배포할 수 있습니다.</li>
+	                		<li>유료로 배포 할 경우에는 배포 가격과 자신이 원하는 정산율을 기입해주세요.</li>
+	                	</ul>
+                    	<input type="radio" id="freeMusic"><label for="freeMusic">무료</label>
+                        <input type="radio" id="chargeMusic"><label for="chargeMusic">유료</label>
+                    </div>
+                </div>
+                <div class="hType1">
+                    <h3>배포 가격</h3>
+                </div>
+                <div class="pl20"><input type="text" style="width: 100px; text-align: right;"> $</div>
+                <div class="hType1">
+                    <h3>배분율</h3>
+                </div>
+                <div class="arrInfoWrap">
+	                <div class="contBox01">
+	                	<ul>
+	                		<li>해당 작곡이 판매 되었을 때 받으실 배분율을 선택해주세요.</li>
+	                		<li>배분율에 대해서 알고 싶으시면 <a class="linkArea" href="#none">여기</a>를 클릭하세요.</li>
+	                		<li>무료로 배포하시더라도 차후 2차 수익이 발생했을 때를 위해서 기입해 주세요. <input type="text" style="width: 50px; text-align: right;"> %</li>
+	                	</ul>
+	                </div>
+	            </div>
+                <div class="hType1">
+                    <h3>편곡자 선택 <strong class="pointColor">(필수)</strong></h3>
+                </div>
+                <div class="arrInfoWrap">
+                    <div class="mb20">
+                        <input type="radio" id="openVocal" name="openClose"><label for="openVocal">공개(누구나 편곡 가능)</label><!--name속성은 스크립트와 연결되어 있습니다 제거하지 마세요-->
+                        <input type="radio" id="closedVocal" name="openClose"><label for="closedVocal">편곡자지정</label>
+                    </div>
+                    <div class="hiddenBoxType1">
+                    	<div class="btnVocalAdd"><a href="#none" class="addLineType1 btn topayc"><span>편곡자추가</span></a></div>
+						<div class="floatL" style="width: 30%;">
+							<table class="tblType02 addTrType1">
+								<colgroup>
+	                                <col style="width: 10%">
+	                                <col style="width: auto">
+	                                <col style="width: 20%">
+	                                <col style="width: 10%">
+	                            </colgroup>
+                                <tr>
+                                    <td><a href="#none" class="layerPopType3"><i class="fa fa-user"></i></a></td>
+                                    <td><input type="text"></td>
+                                    <td><a href="#none" class="layerPopType4"><i class="fa fa-envelope"></i></a></td>
+                                    <td><a href="#none" class="removeLineType1"><i class="fa fa-minus-circle"></i></a></td>
+                                </tr>
+							</table>
+						</div>
+                    </div>
+                </div>
+                <div class="btnAreaType01">
+                	<div class="textR">
+	                    <a class="btn large btnPoint" href="#none"><span>판매개시</span></a>
+	                    <a class="btn large" href="#none"><span>임시저장</span></a>
+	                    <a class="btn large" href="#none"><span>취소</span></a>
+	                </div>
+                </div>
+
+
+                <!-- layer popup : 메시지 보내기 -->
+                <div class="layer">
+                    <div class="bg"></div>
+                    <div id="msgSend" class="pop-layer">
+                        <div class="layerPopupWrap">
+                            <h3><strong>메투리스</strong> 님에게 메시지 보내기</h3>
+                            <div class="popCont">
+                                <div class="popListType01">
+                                    <dl>
+                                        <dt>곡 명</dt>
+                                        <dd>wonderful world</dd>
+                                        <dt>메시지 구분</dt>
+                                        <dd>
+                                            <div class="floatL mb10">
+                                                <select class="dropdown" name="">
+                                                    <option>편곡요청</option>
+                                                    <option>연주요청</option>
+                                                    <option>보컬요청</option>
+                                                </select>
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <h4 class="tit01">메시지</h4>
+                                <textarea class="msgDiv"></textarea>
+                                <div class="textC mt20">
+                                    <a class="btn large btnPoint btnClose" href="#none"><span>취소</span></a>
+                                    <a class="btn large btnPoint btnClose" href="#none"><span>확인</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- layer popup : 보컬검색 -->
+                <div class="layer">
+                    <div class="bg"></div>
+                    <div id="vocalSearch" class="pop-layer">
+                        <div class="layerPopupWrap">
+                            <h3>보컬검색</h3>
+                            <div class="popCont">
+                                <div class="floatL mb10">
+                                    <select class="dropdown" name="">
+                                        <option>보컬1</option>
+                                        <option>보컬2</option>
+                                        <option>보컬2</option>
+                                        <option>보컬2</option>
+                                        <option>보컬2</option>
+                                        <option>보컬2</option>
+                                        <option>보컬2</option>
+                                        <option>보컬2</option>
+                                        <option>보컬2</option>
+                                        <option>보컬2</option>
+                                        <option>보컬2</option>
+                                        <option>보컬2</option>
+
+                                    </select>
+                                </div>
+                                <div class="floatR mb10"><input type="text"><a class="btn small btnPoint ctgView" href="#none"><span>검색</span></a></div>
+                                <table class="tblType03 addTrType2">
+                                    <colgroup>
+                                        <col style="width: 10%">
+                                        <col style="width: 25%">
+                                        <col style="width: auto">
+                                        <col style="width: 20%">
+                                    </colgroup>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>이름</th>
+                                        <th>활동분야</th>
+                                        <th>선택</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>메투릭스</td>
+                                        <td>보컬</td>
+                                        <td><a class="btn small btnPoint ctgView" href="#none"><span>select</span></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>메투릭스</td>
+                                        <td>보컬</td>
+                                        <td><a class="btn small btnPoint ctgView" href="#none"><span>select</span></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>메투릭스</td>
+                                        <td>보컬</td>
+                                        <td><a class="btn small btnPoint ctgView" href="#none"><span>select</span></a></td>
+                                    </tr>
+                                </table>
+                                <div class="textC mt20">
+                                    <a class="btn large btnPoint btnClose" href="#none"><span>닫기</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--업로드용 폼-->
+                <form>
+
+                </form>
+            </div>
+            <!-- //contents -->
+            <!-- footer -->
+			<div class="mrFooter">
+				<div class="footerArea">
+					온라인 음원 제작 사이트 MA2RIX <br>Copyrightⓒ. 2014. MA2RIX. All Rights Reserved.
+				</div>
+			</div>
+			<!-- //footer -->
+        </div>
+    </div>
+</body>
+</html>

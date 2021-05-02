@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.MemberPlayMapper">
+
+	<cache />
+	
+	<select id="getMemberPlaysByMemberNo" parameterType="int" resultType="com.ma2rix.music.model.domain.MemberPlay">
+		SELECT 	MEMBER_PLAY_NO AS memberPlayNo,
+				MEMBER_NO AS memberNo,
+				PLAY_FIELD_NO AS playFieldNo,
+				PLAY_FIELD_NAME AS playFieldName,
+				REG_DATETIME as regDateTime
+		FROM TBL_MEMBER_PLAY 
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="getMemberPlaysByUser" parameterType="com.ma2rix.music.model.domain.User" resultType="com.ma2rix.music.model.domain.MemberPlay">
+		SELECT 	MEMBER_PLAY_NO AS memberPlayNo,
+				MEMBER_NO AS memberNo,
+				PLAY_FIELD_NO AS playFieldNo,
+				PLAY_FILED_NAME AS playFieldName,
+				REG_DATETIME as regDateTime
+		FROM TBL_MEMBER_PLAY 
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	
+	<insert id="insertMemberPlay" parameterType="com.ma2rix.music.model.domain.MemberPlay">
+		INSERT INTO TBL_MEMBER_PLAY 
+			(MEMBER_NO,PLAY_FIELD_NO,PLAY_FIELD_NAME,REG_DATETIME)
+		VALUES 
+			(#{memberNo},#{playFieldNo}, #{playFieldName},NOW()) 
+		
+		<selectKey keyProperty="memberPlayNo" resultType="java.lang.Integer" order ="AFTER">
+		    SELECT LAST_INSERT_ID()
+	    </selectKey>	
+	</insert>
+	
+	<delete id="deleteMemberPlay" parameterType="com.ma2rix.music.model.domain.MemberPlay">
+		DELETE FROM TBL_MEMBER_PLAY WHERE MEMBER_PLAY_NO = #{memberPlayNo}
+	</delete>
+	
+	<delete id="deleteAllMemberPlaysByMemberNo" parameterType="int">
+		delete from TBL_MEMBER_PLAY where member_no = #{memberNo}
+	</delete>
+	
+	
+	<update id="updateMemberPlay" parameterType="com.ma2rix.music.model.domain.MemberPlay">
+		UPDATE TBL_MEMBER_PLAY SET
+			MEMBER_NO = #{memberNo},
+			PLAY_FILED_NO = #{playFieldNo),
+			PLAY_FILED_NAME = #{playFieldName},
+			REG_DATETIME = #{regDateTime}
+		WHERE MEMBER_PLAY_NO = #{memberPlayNo} 
+	</update>
+	
+	</mapper>

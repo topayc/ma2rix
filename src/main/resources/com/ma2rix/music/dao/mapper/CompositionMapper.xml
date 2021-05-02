@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.CompositionMapper">
+	
+	<select id="getCompositionCount"  resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_COMPOSITION
+		]]>
+	</select>
+	
+	<!-- 작곡 페이지의 리스트 , 작곡은 genre 구분이 없음-->
+	<select id="getCompositionCommandList" resultType="com.ma2rix.music.model.command.CompositionCommand">
+		
+			SELECT
+				C.COMPOSE_NO										AS composeNo			,	/* 작곡번호 */
+				C.COMPOSE_MEMBER_NO									AS composeMemberNo		,	/* 작곡자회원번호 */
+				M.MEMBER_NAME										AS composeMemberName	,	/* 작곡자회원명 */
+				M.MEMBER_NICKNAME									AS composeMemberNicName	,	/* 작곡자회원닉네임 */
+				C.COMPOSE_TITLE										AS composeTitle			,	/* 작곡제목 */
+				C.OPEN_STATUS										AS openStatus			,	/* 보컬공개여부 */
+				C.COMPOSE_RATE										AS composeRate			,	/* 작곡배분율 */
+				C.COMPOSE_MEMO										AS composeMemo			,	/* 작곡자 메모 */
+				C.VOCAL_COUNT										AS vocalCount			,	/* 보컬수 */
+				C.FAN_COUNT											AS fanCount				,	/* 팬수 */
+				C.COMPOSE_HITS										AS composeHits			,	/* 조회수 */
+				C.COMPOSE_IMAGE										AS composeImage			,	/* 작곡이미지파일 */
+				CONCAT(A1.WEB_PATH,  A1.FILE_NAME2)					AS composeImageWeb		,	/* 작곡이미지파일 Web Path */
+				CONCAT(A1.FILE_PATH, A1.FILE_NAME2)					AS composeImageFile		,	/* 작곡이미지파일 Local Path */
+				C.COMPOSE_SCORE										AS composeScore			,	/* 악보파일 */
+				CONCAT(A2.WEB_PATH,  A2.FILE_NAME2)					AS composeScoreWeb		,	/* 악보파일 Web Path */
+				CONCAT(A2.FILE_PATH, A2.FILE_NAME2)					AS composeScoreFile		,	/* 악보파일 Local Path */
+				C.COMPOSE_SOUND										AS composeSound			,	/* 음원파일 */           
+				CONCAT(A3.WEB_PATH,  A3.FILE_NAME2)					AS composeSoundWeb		,	/* 음원파일 Web Path */  
+				CONCAT(A3.FILE_PATH, A3.FILE_NAME2)					AS composeSoundFile		,	/* 음원파일 Local Path */
+				GET_SOUND_FILE(A3.WEB_PATH,  A3.FILE_NAME2, 'mp3')	AS composeSoundMp3		,	/* 음원파일 mp3 Path */
+				GET_SOUND_FILE(A3.WEB_PATH,  A3.FILE_NAME2, 'ogg')	AS composeSoundOgg		,	/* 음원파일 ogg Path */
+				GET_SOUND_FILE(A3.WEB_PATH,  A3.FILE_NAME2, 'png')	AS composeSoundPng		,	/* 음원파일 pbg Path */
+				C.SALE_PRICE										AS salePrice			,	/* 판매가격 */
+				C.CHARGE_STATUS										AS chargeStatus			,	/* 유료여부 */
+				C.COMPOSE_STATUS									AS COMPOSEStatus		,	/* 작곡상태 */
+				C.SALE_STATUS										AS saleStatus			,	/* 판매상태 */
+				DATE_FORMAT(C.REG_DATETIME, '%Y-%m-%d %H:%i:%s')	AS regDatetime				/* 등록일시 */
+			FROM
+				TBL_COMPOSITION		AS C
+			INNER JOIN
+				TBL_MEMBER			AS M
+					ON (
+							M.MEMBER_NO	= C.COMPOSE_MEMBER_NO
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS A1
+					ON (
+							A1.ATTACH_NO	= C.COMPOSE_IMAGE
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS A2
+					ON (
+							A2.ATTACH_NO	= C.COMPOSE_SCORE
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS A3
+					ON (
+							A3.ATTACH_NO	= C.COMPOSE_SOUND
+						)
+			WHERE
+				1 = 1
+		
+		ORDER BY
+		<choose>
+			<when test="orderBy = 1">
+				C.FAN_COUNT DESC
+			</when>
+			<when test="orderBy = 2">
+				C.COMPOSE_NO DESC
+			</when>
+			<when test="orderBy = 3">
+				C.VOCAL_COUNT DESC
+			</when>
+			<otherwise>
+				C.COMPOSE_NO DESC
+			</otherwise>
+		</choose>
+
+	</select>
+	
+		<!-- 작곡 페이지의 리스트 , 작곡은 genre 구분이 없음-->
+	<select id="getCompositionCommandByComposeNo" resultType="com.ma2rix.music.model.command.CompositionCommand">
+		
+			SELECT
+				C.COMPOSE_NO										AS composeNo			,	/* 작곡번호 */
+				C.COMPOSE_MEMBER_NO									AS composeMemberNo		,	/* 작곡자회원번호 */
+				M.MEMBER_NAME										AS composeMemberName	,	/* 작곡자회원명 */
+				M.MEMBER_NICKNAME									AS composeMemberNicName	,	/* 작곡자회원닉네임 */
+				C.COMPOSE_TITLE										AS composeTitle			,	/* 작곡제목 */
+				C.OPEN_STATUS										AS openStatus			,	/* 보컬공개여부 */
+				C.COMPOSE_RATE										AS composeRate			,	/* 작곡배분율 */
+				C.COMPOSE_MEMO										AS composeMemo			,	/* 작곡자 메모 */
+				C.VOCAL_COUNT										AS vocalCount			,	/* 보컬수 */
+				C.FAN_COUNT											AS fanCount				,	/* 팬수 */
+				C.COMPOSE_HITS										AS composeHits			,	/* 조회수 */
+				C.COMPOSE_IMAGE										AS composeImage			,	/* 작곡이미지파일 */
+				CONCAT(A1.WEB_PATH,  A1.FILE_NAME2)					AS composeImageWeb		,	/* 작곡이미지파일 Web Path */
+				CONCAT(A1.FILE_PATH, A1.FILE_NAME2)					AS composeImageFile		,	/* 작곡이미지파일 Local Path */
+				C.COMPOSE_SCORE										AS composeScore			,	/* 악보파일 */
+				CONCAT(A2.WEB_PATH,  A2.FILE_NAME2)					AS composeScoreWeb		,	/* 악보파일 Web Path */
+				CONCAT(A2.FILE_PATH, A2.FILE_NAME2)					AS composeScoreFile		,	/* 악보파일 Local Path */
+				C.COMPOSE_SOUND										AS composeSound			,	/* 음원파일 */           
+				CONCAT(A3.WEB_PATH,  A3.FILE_NAME2)					AS composeSoundWeb		,	/* 음원파일 Web Path */  
+				CONCAT(A3.FILE_PATH, A3.FILE_NAME2)					AS composeSoundFile		,	/* 음원파일 Local Path */
+				GET_SOUND_FILE(A3.WEB_PATH,  A3.FILE_NAME2, 'mp3')	AS composeSoundMp3		,	/* 음원파일 mp3 Path */
+				GET_SOUND_FILE(A3.WEB_PATH,  A3.FILE_NAME2, 'ogg')	AS composeSoundOgg		,	/* 음원파일 ogg Path */
+				GET_SOUND_FILE(A3.WEB_PATH,  A3.FILE_NAME2, 'png')	AS composeSoundPng		,	/* 음원파일 pbg Path */
+				C.SALE_PRICE										AS salePrice			,	/* 판매가격 */
+				C.CHARGE_STATUS										AS chargeStatus			,	/* 유료여부 */
+				C.COMPOSE_STATUS									AS COMPOSEStatus		,	/* 작곡상태 */
+				C.SALE_STATUS										AS saleStatus			,	/* 판매상태 */
+				DATE_FORMAT(C.REG_DATETIME, '%Y-%m-%d %H:%i:%s')	AS regDatetime				/* 등록일시 */
+			FROM
+				TBL_COMPOSITION		AS C
+			INNER JOIN
+				TBL_MEMBER			AS M
+					ON (
+							M.MEMBER_NO	= C.COMPOSE_MEMBER_NO
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS A1
+					ON (
+							A1.ATTACH_NO	= C.COMPOSE_IMAGE
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS A2
+					ON (
+							A2.ATTACH_NO	= C.COMPOSE_SCORE
+						)
+			LEFT OUTER JOIN
+				TBL_ATTACH_MUSIC	AS A3
+					ON (
+							A3.ATTACH_NO	= C.COMPOSE_SOUND
+						)
+			WHERE
+				C.COMPOSE_NO = #{composeNo}
+			
+	</select>
+	
+	<!-- 작곡 페이지의 리스트로 도메인구조로 반환  , 작곡은 genre 구분이 없음-->
+	<select id = "getCompositionList" resultType = "com.ma2rix.music.model.domain.Composition">
+		<![CDATA[
+			SELECT
+				COMPOSE_NO                     as composeNo               ,
+				COMPOSE_MEMBER_NO              as composeMemberNo         ,
+				COMPOSE_TITLE     			   as composeTitle            ,
+				OPEN_STATUS    				   as openStatus              ,
+				COMPOSE_RATE                   as composeRate             ,
+				COMPOSE_MEMO				   as composeMemo			  ,
+				ARRANGE_COUNT				   as arrangeCount			  ,
+				VOCAL_COUNT					   as vocalCount              ,
+				FAN_COUNT					   as fanCount                ,
+				COMPOSE_HITS                   as composeHits             ,
+				COMPOSE_IMAGE                  as composeImage            ,
+				COMPOSE_SCORE                  as composeScore            ,
+				COMPOSE_SOUND                  as composeSound            ,
+				SALE_PRICE					   as salePrice               ,
+				CHARGE_STATUS                  as chargeStatus            ,
+				COMPOSE_STATUS                 as composeStatus           ,
+				SALE_STATUS                    as saleStatus              ,
+				REG_DATETIME                   as regDateTime             ,
+				MOD_ADMIN_NO                   as modAdminNo              ,
+				MOD_DATETIME                   as modDateTime             
+			FROM
+				TBL_COMPOSITION	
+		]]>
+			ORDER BY
+			<choose>
+				<when test="orderBy = 1">
+					C.FAN_COUNT DESC
+				</when>
+				<when test="orderBy = 2">
+					C.COMPOSE_NO DESC
+				</when>
+				<when test="orderBy = 3">
+					C.VOCAL_COUNT DESC
+				</when>
+				<otherwise>
+					C.COMPOSE_NO DESC
+				</otherwise>
+			</choose>
+			<if test="pageCount != 0">
+				LIMIT #{pageCount} OFFSET #{pageOffset}
+			</if>
+	</select>
+	
+	<select id = "getCompositionByComposeNo" parameterType = "int" resultType = "com.ma2rix.music.model.domain.Composition">
+		<![CDATA[
+			SELECT
+				COMPOSE_NO                     as composeNo               ,
+				COMPOSE_MEMBER_NO              as composeMemberNo         ,
+				COMPOSE_TITLE     			   as composeTitle            ,
+				OPEN_STATUS    				   as openStatus             ,
+				COMPOSE_RATE                   as composeRate             ,
+				COMPOSE_MEMO				   as composeMemo			  ,
+				ARRANGE_COUNT				   as arrangeCount			  ,
+				VOCAL_COUNT					   as vocalCount              ,
+				FAN_COUNT					   as fanCount                ,
+				COMPOSE_HITS                   as composeHits             ,
+				COMPOSE_IMAGE                  as composeImage            ,
+				COMPOSE_SCORE                  as composeScore            ,
+				COMPOSE_SOUND                  as composeSound            ,
+				SALE_PRICE					   as salePrice               ,
+				CHARGE_STATUS                  as chargeStatus            ,
+				COMPOSE_STATUS                 as composeStatus           ,
+				SALE_STATUS                    as saleStatus              ,
+				REG_DATETIME                   as regDateTime             ,
+				MOD_ADMIN_NO                   as modAdminNo              ,
+				MOD_DATETIME                   as modDateTime             
+			FROM
+				TBL_COMPOSITION	
+			WHERE 
+				COMPOSE_NO = #{composeNo}
+		]]>
+	</select>
+
+	<insert id ="insertComposition" parameterType = "com.ma2rix.music.model.domain.Composition">
+		<![CDATA[
+			INSERT INTO
+				TBL_COMPOSITION
+			(
+				COMPOSE_MEMBER_NO			,
+				COMPOSE_TITLE               ,
+				OPEN_STATUS                 ,
+				COMPOSE_RATE                ,
+				COMPOSE_MEMO                ,
+				ARRANGE_COUNT          	    ,
+				VOCAL_COUNT                 ,
+				FAN_COUNT                   ,
+				COMPOSE_HITS                ,
+				COMPOSE_IMAGE               ,
+				COMPOSE_SCORE               ,
+				COMPOSE_SOUND               ,
+				SALE_PRICE                  ,
+				CHARGE_STATUS               ,
+				COMPOSE_STATUS              ,
+				SALE_STATUS                 ,
+				REG_DATETIME				,
+				MOD_ADMIN_NO				,
+				MOD_DATETIME                
+			)
+			VALUES
+			(
+				#{composeMemberNo}          ,
+				#{composeTitle}             ,
+				#{openStatus}               ,
+				#{composeRate}              ,
+				#{composeMemo}              ,
+				#{arrangeCount}             ,
+				#{vocalCount}               ,
+				#{fanCount}                 ,
+				#{composeHits}              ,
+				#{composeImage}             ,
+				#{composeScore}             ,
+				#{composeSound}             ,
+				#{salePrice}                ,
+				#{chargeStatus}             ,
+				#{composeStatus}            ,
+				#{saleStatus}               ,
+				NOW()						,
+				#{modAdminNo}				,
+				NOW()		   
+			)
+		]]>
+
+		<selectKey keyProperty="composeNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<update id ="updateComposition" parameterType ="com.ma2rix.music.model.domain.Composition">
+		<![CDATA[
+			UPDATE
+				TBL_COMPOSITION
+			SET
+				COMPOSE_MEMBER_NO      = #{composeMemberNo}          ,
+				COMPOSE_TITLE          = #{composeTitle}             ,
+				OPEN_STATUS            = #{openStatus}               ,
+				COMPOSE_RATE           = #{composeRate}               ,
+				COMPOSE_MEMO           = #{composeMemo}              ,
+				ARRANGE_COUNT          = #{arrangeCount}             ,
+				VOCAL_COUNT            = #{vocalCount}               ,
+				FAN_COUNT              = #{fanCount}                 ,
+				COMPOSE_HITS           = #{composeHits}              ,
+				COMPOSE_IMAGE          = #{composeImage}             ,
+				COMPOSE_SCORE          = #{composeScore}             ,
+				COMPOSE_SOUND          = #{composeSound}             ,
+				SALE_PRICE             = #{salePrice}                ,
+				CHARGE_STATUS          = #{chargeStatus}             ,
+				COMPOSE_STATUS         = #{composeStatus}            ,
+				SALE_STATUS            = #{saleStatus}               ,
+				MOD_DATETIME           = NOW()
+			WHERE
+				COMPOSE_NO	= #{composeNo}
+		]]>
+	</update>
+	
+	<delete id ="deleteteCompositon" parameterType = "int">
+		<![CDATA[
+			DELETE FROM
+				TBL_COMPOSTION
+			WHERE
+				COMPOSE_NO	= #{composeNo}
+		]]>
+	</delete>
+	
+	<select id="getComposeArrangeCommandsByComposeNo"  parameterType = "int" resultType="com.ma2rix.music.model.command.ComposeArrangeCommand">
+		<![CDATA[
+		SELECT
+				T1.COMPOSE_NO			as composeNo		,
+				T1.ARRANGE_MEMBER_NO	as arrangeMemberNo	,
+				T2.MEMBER_NAME			aS arrangeMemberName,
+				T1.REG_DATETIME			as regDateTime	 
+			FROM
+				TBL_COMPOSE_ARRANGER 	AS T1
+			LEFT OUTER JOIN
+				TBL_MEMBER			AS T2
+					ON (
+							T2.MEMBER_NO	= T1.ARRANGE_MEMBER_NO
+						)
+			WHERE
+				T1.COMPOSE_NO  = #{composeNo}
+			ORDER BY
+				T1.COMPOSE_NO
+		]]>	
+	</select>
+	
+</mapper>

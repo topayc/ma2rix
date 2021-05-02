@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.ComposeArrangerMapper">
+	<select id="getComposeArrangeCount"  resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_COMPOSE_ARRANGER
+		]]>
+	</select>
+	
+	<select id="getAllComposeArrnagerList"  resultType="com.ma2rix.music.model.domain.ComposeArranger">
+		<![CDATA[
+			SELECT
+				COMPOSE_NO				as composeNo		,
+				ARRANGE_MEMBER_NO		as arrangeMemberNo	,
+				REG_DATETIME			as regDateTime		 
+			FROM
+				TBL_COMPOSE_ARRANGER
+		]]>	
+	</select>
+	
+	<select id="getComposeArrangeByComposeNo"  parameterType = "int" resultType="com.ma2rix.music.model.domain.ComposeArranger">
+		<![CDATA[
+		SELECT
+				COMPOSE_NO				as composeNo		,
+				ARRANGE_MEMBER_NO		as arrangeMemberNo	,
+				REG_DATETIME			as regDateTime	 
+			FROM
+				TBL_COMPOSE_ARRANGER
+			WHERE
+				COMPOSE_NO  = #{composeNo}
+		]]>	
+	</select>
+	
+	<select id="getComposeArrangeByArrangeMemberNo"  parameterType = "int" resultType="com.ma2rix.music.model.domain.ComposeArranger">
+		<![CDATA[
+		SELECT
+				COMPOSE_NO				as composeNo		,
+				ARRANGE_MEMBER_NO		as arrangeMemberNo	,
+				REG_DATETIME			as regDateTime		 
+			FROM
+				TBL_COMPOSE_ARRANGER
+			WHERE
+				ARRANGE_MEMBER_NO  = #{arrangeMemberNo}
+		]]>	
+	</select>
+	
+	<select id="getComposeArrangeByNo"  parameterType = "int" resultType="com.ma2rix.music.model.domain.ComposeArranger">
+		<![CDATA[
+		SELECT
+				COMPOSE_NO				as composeNo		,
+				ARRANGE_MEMBER_NO		as arrangeMemberNo	,
+				REG_DATETIME			as regDateTime		 
+			FROM
+				TBL_COMPOSE_ARRANGER
+			WHERE
+				ARRANGE_MEMBER_NO  = #{arrangeMemberNo}
+			AND
+				COMPOSE_NO	= #{composeNo}
+		]]>	
+	</select>
+	
+	<insert id="insertComposeArranger" parameterType ="com.ma2rix.music.model.domain.ComposeArranger" >
+		<![CDATA[
+			INSERT INTO
+				TBL_COMPOSE_ARRANGER
+			(
+				COMPOSE_NO				,
+				ARRANGE_MEMBER_NO		,
+				REG_DATETIME
+			)
+			VALUES
+			(
+				#{composeNo}			,
+				#{arrangeMemberNo}		,
+				NOW()
+			)
+		]]>
+	</insert>
+
+	<delete id="deleteComposeArrangerlByNo" parameterType ="int" >
+		<![CDATA[
+			DELETE FROM
+				TBL_COMPOSE_ARRANGER
+			WHERE
+				COMPOSE_NO		= #{composeNo}
+			AND
+				ARRANGE_MEMBER_NO =#{arrangeMemberNo}
+		]]>
+	</delete>
+	
+	<delete id="deleteComposeArrangeByComposeNo" parameterType ="int" >
+		<![CDATA[
+			DELETE FROM
+				TBL_COMPOSE_ARRANGER
+			WHERE
+				COMPOSE_NO		= #{composeNo}
+		]]>
+	</delete>
+	
+	<delete id="deleteComposeArrangeByArrangeMemgerNo" parameterType ="int" >
+		<![CDATA[
+			DELETE FROM
+				TBL_COMPOSE_ARRANGER
+			WHERE
+				ARRANGE_MEMBER_NO =#{arrangeMemberNo}
+		]]>
+	</delete>
+
+	<update id="updateComposeArrange" parameterType ="com.ma2rix.music.model.domain.ComposeArranger" >
+		<![CDATA[
+
+		]]>
+	</update>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.MemberFieldMapper">
+
+	<cache />
+	
+	<select id="getMemberFieldsByUser" parameterType="com.ma2rix.music.model.domain.User" resultType="com.ma2rix.music.model.domain.MemberField">
+		SELECT 	MEMBER_NO AS memberNo,
+				MUSIC_FIELD AS musicField,
+				REG_DATETIME as regDateTime
+		FROM TBL_MEMBER_FIELD 
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="getMemberFieldsByMemberNo" parameterType="int" resultType="com.ma2rix.music.model.domain.MemberField">
+		SELECT 	MEMBER_NO AS memberNo,
+				MUSIC_FIELD AS musicField,
+				REG_DATETIME as regDateTime
+		FROM TBL_MEMBER_FIELD 
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	
+	<insert id="insertMemberField" parameterType="com.ma2rix.music.model.domain.MemberField">
+		INSERT INTO TBL_MEMBER_FIELD
+			(MEMBER_NO,MUSIC_FIELD,REG_DATETIME)
+		VALUES 
+			(#{memberNo}, #{musicField},NOW()) 
+			
+	    <selectKey keyProperty="memberNo" resultType="java.lang.Integer" order ="AFTER">
+		    SELECT LAST_INSERT_ID()
+	    </selectKey>	
+	</insert>
+	
+	<delete id="deleteMemberField" parameterType="com.ma2rix.music.model.domain.MemberField">
+		DELETE FROM TBL_MEMBER_FIELD  where member_no = #{memberNo}
+	</delete>
+	
+	<delete id="deleteAllMemberFieldsByMemberNo" parameterType="int">
+		DELETE FROM TBL_MEMBER_FIELD  where member_no = #{memberNo}
+	</delete>
+	
+	<update id="updateMemberField" parameterType="com.ma2rix.music.model.domain.MemberField">
+		UPDATE TBL_MEMBER_FIELD SET
+			MEMBER_NO = #{memberNo},
+			MUSIC_FIELD = #{musicField},
+			REG_DATETIME = #{regDateTime}
+		WHERE MEMBER_NO = #{memberNo} 
+	</update>
+	
+	</mapper>

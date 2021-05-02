@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.AuthenticationMapper">
+
+	<cache />
+	<select id="getAuthentication" parameterType="com.ma2rix.music.model.domain.Authentication" resultType="com.ma2rix.music.model.domain.Authentication">
+	<![CDATA[
+		SELECT
+			AUTHENTICATE_NO		AS authenticateNo	, 
+			MEMBER_NO			AS memberNo			,
+			AUTHENTICATE_TYPE	AS authenticateType	,
+			MEMBER_USERID		AS memberUserId		,
+			AUTHENTICATE_KEY	AS authenticateKey	,
+			DATE_FORMAT(EXPIRE_DATETIME, '%Y%m%d%H%i%s')	AS expireDatetime
+		FROM
+  			TBL_AUTHENTICATION
+  		WHERE
+			AUTHENTICATE_NO		= #{authenticateNo}
+		AND
+			AUTHENTICATE_KEY	= #{authenticateKey}
+	]]>
+	</select>
+	
+	<select id="getAuthenticationByAuthenticateKey" parameterType="string" resultType="com.ma2rix.music.model.domain.Authentication">
+	<![CDATA[
+		SELECT
+			AUTHENTICATE_NO		AS authenticateNo	, 
+			MEMBER_NO			AS memberNo			,
+			AUTHENTICATE_TYPE	AS authenticateType	,
+			MEMBER_USERID		AS memberUserId		,
+			AUTHENTICATE_KEY	AS authenticateKey	,
+			DATE_FORMAT(EXPIRE_DATETIME, '%Y%m%d%H%i%s')	AS expireDatetime
+		FROM
+  			TBL_AUTHENTICATION
+  		WHERE
+			AUTHENTICATE_KEY	= #{authenticateKey}
+	]]>
+	</select>
+	
+	<select id="getAuthenticationDuplicate" parameterType="com.ma2rix.music.model.domain.Authentication" resultType="com.ma2rix.music.model.domain.Authentication">
+	<![CDATA[
+		SELECT
+			AUTHENTICATE_NO		AS authenticateNo	, 
+			MEMBER_NO			AS memberNo			,
+			AUTHENTICATE_TYPE	AS authenticateType	,
+			MEMBER_USERID		AS memberUserId		,
+			AUTHENTICATE_KEY	AS authenticateKey	,
+			DATE_FORMAT(EXPIRE_DATETIME, '%Y%m%d%H%i%s')	AS expireDatetime
+		FROM
+  			TBL_AUTHENTICATION
+  		WHERE
+			MEMBER_NO			= #{memberNo}
+		AND
+			AUTHENTICATE_TYPE	= #{authenticateType}
+	]]>
+	</select>
+	
+	<insert id="insertAuthentication" parameterType="com.ma2rix.music.model.domain.Authentication">
+	<![CDATA[
+		INSERT INTO 
+			TBL_AUTHENTICATION
+		(
+			MEMBER_NO			,
+			AUTHENTICATE_TYPE	,
+			MEMBER_USERID		,
+			AUTHENTICATE_KEY	,
+			EXPIRE_DATETIME		,			
+			REG_DATETIME
+		) VALUES (
+			#{memberNo}			,
+			#{authenticateType}	,
+			#{memberUserId}		,
+			#{authenticateKey}	,
+			#{expireDatetime}	,
+            NOW()
+		)	
+    ]]>                   		 
+	   <selectKey keyProperty="authenticateNo" resultType="int" order ="AFTER">
+		    SELECT LAST_INSERT_ID()
+	   </selectKey>					
+ 
+	</insert>
+	
+	<delete id="deleteAuthentication" parameterType="int">
+	<![CDATA[
+		DELETE FROM
+			TBL_AUTHENTICATION
+		WHERE
+			AUTHENTICATE_NO		= #{authenticateNo}
+	]]> 
+	</delete>
+	
+	<delete id="deleteAuthenticationByAuthenticateKey" parameterType="string">
+	<![CDATA[
+		DELETE FROM
+			TBL_AUTHENTICATION
+		WHERE
+			AUTHENTICATE_KEY = #{authenticateKey}
+	]]> 
+	</delete>
+	
+	<update id="updateAuthentication" parameterType="com.ma2rix.music.model.domain.Authentication">
+	<![CDATA[
+		UPDATE
+			TBL_AUTHENTICATION
+		SET 
+			MEMBER_NO			= #{memberNo}			,
+			AUTHENTICATE_TYPE	= #{authenticateType}	,
+			MEMBER_USERID		= #{memberUserId}		,
+			AUTHENTICATE_KEY	= #{authenticateKey}	,
+			EXPIRE_DATETIME		= #{expireDatetime}		,
+			REG_DATETIME		= NOW()
+		WHERE
+			AUTHENTICATE_NO		= #{authenticateNo}
+	]]>
+	</update>
+	
+	<update id="updateAuthenticationByAuthenticateKey" parameterType="com.ma2rix.music.model.domain.Authentication">
+	<![CDATA[
+		UPDATE
+			TBL_AUTHENTICATION
+		SET 
+			MEMBER_NO			= #{memberNo}			,
+			AUTHENTICATE_TYPE	= #{authenticateType}	,
+			MEMBER_USERID		= #{memberUserId}		,
+			AUTHENTICATE_KEY	= #{authenticateKey}	,
+			EXPIRE_DATETIME		= #{expireDatetime}		,
+			REG_DATETIME		= NOW()
+		WHERE
+			AUTHENTICATE_KEY	= #{authenticateKey}
+	]]>
+	</update>
+
+</mapper>

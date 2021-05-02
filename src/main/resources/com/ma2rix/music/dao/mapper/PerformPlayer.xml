@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.PerformPlayerMapper">
+	<cache />
+	<select id = "getPerformPlayerCount" resultType = "int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_PERFOR_PLAYER
+		]]>
+	</select>
+	
+	<select id="getPerformPlayersByPlayerMemberNo" parameterType="int" resultType="com.ma2rix.music.model.domain.PerformPlayer">
+		<![CDATA[
+			SELECT
+				PERFORM_NO				as performNo			,
+				PLAYER_MEMBER_NO		as playerMemberNo		,
+				PERFORM_RATE			as performRate			,
+				CHOICE_STATUS			as choiceStatus			,    
+				REG_DATETIME			as regDateTime			,
+				MOD_DATETIME			as modDateTime			  			
+			FROM 
+				TBL_PERFORM_PLAYER
+			WHERE 
+				PLAYER_MEMBER_NO = #{playerMemberNo}
+		]]>
+	</select>
+	
+	<select id="getPerformPlayersByPerformNo" parameterType="int" resultType="com.ma2rix.music.model.domain.PerformPlayer">
+		<![CDATA[
+			SELECT
+				PERFORM_NO				as performNo			,
+				PLAYER_MEMBER_NO		as playerMemberNo		,
+				PERFORM_RATE			as performRate			,
+				CHOICE_STATUS			as choiceStatus			,    
+				REG_DATETIME			as regDateTime			,
+				MOD_DATETIME			as modDateTime			  			
+			FROM 
+				TBL_PERFORM_PLAYER
+			WHERE 
+				PERFORM_NO = #{performNo}
+		]]>
+	</select>
+	
+	
+	<select id="getPerformPlayersByPerformNoAndPlayerMemberNo" parameterType="int" resultType="com.ma2rix.music.model.domain.PerformPlayer">
+		<![CDATA[
+			SELECT
+				PERFORM_NO				as performNo			,
+				PLAYER_MEMBER_NO		as playerMemberNo		,
+				PERFORM_RATE			as performRate			,
+				CHOICE_STATUS			as choiceStatus			,    
+				REG_DATETIME			as regDateTime			,
+				MOD_DATETIME			as modDateTime			  			
+			FROM 
+				TBL_PERFORM_PLAYER
+			WHERE 
+				PERFORM_NO = #{performNo} AND PLAYER_MEMBER_NO = #{playerMemberNo}
+		]]>
+	</select>
+	
+	<insert id ="insertPerformPlayer" parameterType ="com.ma2rix.music.model.domain.PerformPlayer">
+		<![CDATA[
+			INSERT INTO 
+				TBL_PERFORM_PLYAER
+			(	
+				PERFORM_NO							,
+				PLAYER_MEMBER_NO					,
+				PERFORM_RATE						,
+				CHOICE_STATUS						,
+				REG_DATETIME						,
+				MOD_DATETIME							
+			)
+			VALUES 
+			(
+				#{performNo}						,
+				#{playerMemberNo}	    			,
+				#{performRate}						,
+				#{choiceStatus}						,
+				NOW()								,
+				NOW()				
+			)
+		]]>
+	</insert>
+
+	<update id = "updatePerformPlayer" parameterType= "com.ma2rix.music.model.domain.PerformPlayer">
+		<![CDATA[
+			UPDATE 
+				TBL_PERFORM_PLAYER
+			SET 
+				-- PERFORM_NO      			 = #{performNo}			,
+				-- PLAYER_MEMBER_NO			 = #{playerMemberNo}	,
+				PERFORM_RATE				 = #{performRate}		,
+				CHOICE_STATUS			     = #{choiceStatus}		,
+				REG_DATETIME				 = #{regDateTime}		,
+				MOD_DATETIME				 = NOW()		
+			WHERE 
+				PERFORM_NO = #{performNo} AND PLAYER_MEMBER_NO = #{playerMemberNo}
+		]]>
+	</update>	
+	
+	
+	<delete id = "deletePerformPlayer" >
+		<![CDATA[
+			DELETE FROM 
+				TBL_PERFORM_PLAYER
+			WHERE
+				PERFORM_NO = #{performNo} AND PLAYER_MEMBER_NO = #{playerMemberNo}
+		]]>
+	</delete>	
+	
+</mapper>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.SaleMapper">
+	<cache />
+	<select id = "getSaleCount" resultType = "int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_SALE
+		]]>
+	</select>
+	
+	<select id="getSaleBySaleNo" parameterType="int" resultType="com.ma2rix.music.model.domain.Sale">
+		<![CDATA[
+			SELECT
+				SALE_NO					as saleNo    			,
+				SALE_DATE				as saleDate			    ,
+				SALE_TIME				as saleTime				,
+				SALE_MEMBER_NO			as saleMemberNo			,
+				SALE_GOODS				as saleGoods			,
+				GOODS_NO				as goodsNo				,
+				SALE_AMOUNT				as saleAmount			,
+				SALE_FEE				as saleFee				,
+				CANCEL_SALE_NO			as cancelSaleNo			,
+				SALE_STATUS				as saleStatus			,
+				PAY_NO					as payNo				,
+				DISTRIBUTE_NO			as distributeNo			,
+				REG_DATETIME			as regDateTime		 			
+			FROM 
+				TBL_SALE
+			WHERE 
+				SALE_NO = #{saleNo}
+		]]>
+	</select>
+	
+	<select id="getSaleBySaleMemberNo" parameterType="int" resultType="com.ma2rix.music.model.domain.Sale">
+		<![CDATA[
+			SELECT
+				SALE_NO					as saleNo    			,
+				SALE_DATE				as saleDate			    ,
+				SALE_TIME				as saleTime				,
+				SALE_MEMBER_NO			as saleMemberNo			,
+				SALE_GOODS				as saleGoods			,
+				GOODS_NO				as goodsNo				,
+				SALE_AMOUNT				as saleAmount			,
+				SALE_FEE				as saleFee				,
+				CANCEL_SALE_NO			as cancelSaleNo			,
+				SALE_STATUS				as saleStatus			,
+				PAY_NO					as payNo				,
+				DISTRIBUTE_NO			as distributeNo			,
+				REG_DATETIME			as regDateTime		 			
+			FROM 
+				TBL_SALE
+			WHERE 
+				SALE_MEMBER_NO = #{saleMemberNo}
+		]]>
+	</select>
+	
+	
+	<insert id ="insertSale" parameterType ="com.ma2rix.music.model.domain.Sale">
+		<![CDATA[
+			INSERT INTO 
+				TBL_SALE
+			(	
+				SALE_DATE			    ,
+				SALE_TIME				,
+				SALE_MEMBER_NO			,
+				SALE_GOODS				,
+				GOODS_NO				,
+				SALE_AMOUNT				,
+				SALE_FEE				,
+				CANCEL_SALE_NO			,
+				SALE_STATUS				,
+				PAY_NO					,
+				DISTRIBUTE_NO			,
+				REG_DATETIME			 					
+			)
+			VALUES 
+			(
+				#{saleDate}				,
+				#{saleTime}				,
+				#{saleMemberNo}			,
+				#{saleGoods}			,
+				#{goodsNo}				,
+				#{saleAmount}			,
+				#{saleFee}				,
+				#{cancelSaleNo}			,
+				#{saleStatus}			,
+				#{payNo}				,
+				#{distributeNo}			,
+				NOW()					
+			)
+		]]>
+		
+		<selectKey keyProperty="saleNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		
+	</insert>
+
+	<update id = "updateSale" parameterType= "com.ma2rix.music.model.domain.Sale">
+		<![CDATA[
+			UPDATE 
+				TBL_SALE
+			SET 
+				SALE_DATE			= #{saleDate} 		    ,
+				SALE_TIME			= #{saleTime}			,
+				SALE_MEMBER_NO		= #{saleMemberNo}		,
+				SALE_GOODS			= #{saleGoods}			,
+				GOODS_NO			= #{goodsNo}			,
+				SALE_AMOUNT			= #{saleAmount}			,
+				SALE_FEE			= #{saleFee}			,
+				CANCEL_SALE_NO		= #{cancelSaleNo}		,
+				SALE_STATUS			= #{saleStatus}			,
+				PAY_NO				= #{payNo}				,
+				DISTRIBUTE_NO		= #{distributeNo}		,
+				-- REG_DATETIME	    = NOW()
+			WHERE 
+				SALE_NO = #{saleNo}
+		]]>
+	</update>	
+	
+	<delete id = "deleteSale" parameterType = "int" >
+		<![CDATA[
+			DELETE FROM 
+				TBL_SALE
+			WHERE 
+				SALE_NO = #{saleNo} 
+		]]>
+	</delete>	
+	
+</mapper>

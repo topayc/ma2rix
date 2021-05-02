@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.PlayFieldMapper">
+
+	<cache/>
+	
+	<select id="getAllPlayFields" resultType="com.ma2rix.music.model.domain.PlayField">
+		<![CDATA[
+			SELECT 
+				PLAY_FIELD_NO AS playFieldNo,
+				PLAY_FIELD_NAME AS playFieldName,
+				REG_MEMBER_NO AS regMemberNo,
+				REG_DATETIME AS regDateTime
+			FROM TBL_PLAY_FIELD
+		]]>
+	</select>
+	
+	<select id="getPlayFieldByFieldNo" parameterType ="int" resultType="com.ma2rix.music.model.domain.PlayField">
+		SELECT 
+			PLAY_FIELD_NO AS playFieldNo,
+			PLAY_FIELD_NAME AS playFieldName,
+			REG_MEMBER_NO AS regMemberNo,
+			REG_DATETIME AS regDateTime
+		FROM TBL_PLAY_FIELD
+		WHERE PLAY_FIELD_NO = #{playFieldNo}
+	</select>
+	
+	
+	<insert id="insertPlayField" parameterType="com.ma2rix.music.model.domain.PlayField">
+		INSERT INTO TBL_PLAY_FIELD
+			(PLAY_FILED_NAME,REG_MEMBER_NO,REG_DATETIME)
+		VALUES 
+			(#{playFieldName}, #{regMemberNo}, #{regDateTime}) 
+		
+		<selectKey keyProperty="playFieldNo" resultType="java.lang.Integer" order ="AFTER">
+		    SELECT LAST_INSERT_ID()
+	   	</selectKey>
+	</insert>
+	
+	<delete id="deletePlayField" parameterType="com.ma2rix.music.model.domain.MemberPlay">
+		DELETE FROM TBL_PLAY_FIELD WHERE PLAY_FIELD_NO = #{playFieldNo}
+	</delete>
+	
+	<update id="updatePlayField" parameterType="com.ma2rix.music.model.domain.MemberPlay">
+		UPDATE TBL_PLAY_FIELD SET
+			PLAY_FILED_NAME = #{playFieldName},
+			REG_MEMBER_NO = #{regMemberNo},
+			REG_DATETIME = #{regDateTime}
+		WHERE PLAY_FIELD_NO = #{playFieldNo} 
+	</update>
+	
+	</mapper>

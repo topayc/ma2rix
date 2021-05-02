@@ -1,0 +1,29 @@
+/*profile_ch css*/
+
+h3.tit {display:block;font-size:30px; line-height:30px; margin-top:30px;color:#000; border-bottom:4px solid #fd4f3e; padding:0 0 10px 0;}
+div.profile_ch{float:left; width:100%; margin-top:80px; }
+div.profile_ch .title{border-bottom: 1px solid #e4e4e4;padding:5px 0 5px 0;margin-bottom:10px;font-weight:bold;font-size:14px;}
+table.link tr {height:40px;}
+table.link th {font-weight:bold;}
+.map_canvas {float: right; width: 400px; height: 250px;}
+div.box {float:left; border:1px solid #e5e5e5; background:#f5f5f5; padding:2px 5px; position:relative;}
+div.box .direct_input {display:none;}
+.hide1 {display:none;}
+.btn-ms3{width:90px; height:40px;border:1px solid #e4e4e4;border-radius:3px;cursor:pointer;background-color: #fd4f3e;color: white;float:right;text-align:center;font-size:14px;}
+.profile_ch_textstyle{position: relative; width : 100%;height : 200px;background-color : #FAFAFA;border : 0px;box-shadow : 0 1px 2px rgba(31, 50, 63, 0.25); margin:10px 0 10px 0;}
+.overlap {border: 1px solid #D6D6D6;width:70px;height:30px;padding:3px 10px 0 10px;margin:10px 0 0 10px;font-weight:bold;cursor:pointer;background-color: #EEE;}
+.overlap2 {border: 1px solid #D6D6D6;width:150px;height:30px;padding:3px 10px 0 10px;font-weight:bold;cursor:pointer;background-color: #EEE;}
+.progress{position: relative;width: 150px;border: 1px solid #ddd;padding: 1px;border-radius: 3px;}
+.bar {background-color: #fd4f3e;width: 0%;height: 20px;border-radius: 3px;}
+.percent{position: absolute;display: inline-block;top: 3px;left: 43%;}
+#profile_image{width:100%;}
+.image_wrap{width:150px; height:150px;}
+.button_wrap{display:inline-black;margin-top:20px; vertical-align:top;}
+#geocomplete{display:none;}
+.SelectNation{width:320px;}
+#status{width:200px;height:30px;background-color:gray;}
+
+
+
+
+

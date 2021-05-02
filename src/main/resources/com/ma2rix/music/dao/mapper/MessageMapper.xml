@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.MessageMapper">
+	<cache />
+	
+	<select id = "getMessagesCount" resultType = "int">
+		<![CDATA[
+			SELECT COUNT(*) FROM TBL_MESSAGE
+		]]>
+	</select>
+	
+	<select id ="getAllMessages" resultType = "com.ma2rix.music.model.domain.Message">
+		<![CDATA[
+			SELECT 
+				MESSAGE_NO 			           	  AS messageNo           ,
+				ORIGIN_MESSAGE_NO				  as originMessageNo     ,
+				MEMBER_NO           			  AS memberNo            ,
+				TALK_MEMBER_NO					  AS talkMemberNo        ,        
+				TRANSFER_TYPE                     AS tansferType		 ,   /* 코드분류:MA022, S:보낸메시지, R:받은메시지 */
+				MESSAGE_TYPE                      AS messageType		 ,   /* 코드분류:MA023, 01:작곡, 02:편곡, 03:완성곡, 09:일반 */
+				MUSIC_NO						  AS musicNo			 ,	 /* 코드분류(MA023 ,01:작곡, 02:편곡, 03:완성곡)에 따른 단계별 음원번호 */
+				MESSAGE_CONTENT					  AS messageContent		 ,	
+				READ-STATUS						  AS readStatus			 ,	 /* 코드분류:MA024(보낸메시지일 경우 상대방이 읽으면 Y) Y:읽음, N:읽지않음 */
+				REG_DATETIME					  AS regDateTime		 ,
+			FROM 
+				TBL_MESSAGE 
+		]]>
+	</select>
+	
+	<select id="getMessageByMessageNo" parameterType="int" resultType="com.ma2rix.music.model.domain.Message">
+			SELECT 
+				MESSAGE_NO 			           	  AS messageNo           ,
+				ORIGIN_MESSAGE_NO				  as originMessageNo     ,
+				MEMBER_NO           			  AS memberNo            ,
+				TALK_MEMBER_NO					  AS talkMemberNo        ,        
+				TRANSFER_TYPE                     AS tansferType		 ,   /* 코드분류:MA022, S:보낸메시지, R:받은메시지 */
+				MESSAGE_TYPE                      AS messageType		 ,   /* 코드분류:MA023, 01:작곡, 02:편곡, 03:완성곡, 09:일반 */
+				MUSIC_NO						  AS musicNo			 ,	 /* 코드분류(MA023 ,01:작곡, 02:편곡, 03:완성곡)에 따른 단계별 음원번호 */
+				MESSAGE_CONTENT					  AS messageContent		 ,	
+				READ-STATUS						  AS readStatus			 ,	 /* 코드분류:MA024(보낸메시지일 경우 상대방이 읽으면 Y) Y:읽음, N:읽지않음 */
+				REG_DATETIME					  AS regDateTime		 ,
+			FROM 
+				TBL_MESSAGE 
+			WHERE 
+				MESSAGE_NO = #{messageNo}
+	</select>
+	<select id ="getMessagesByMemeberNo" parameterType ="int" resultType ="com.ma2rix.music.model.domain.Message">
+		<![CDATA[
+			SELECT 
+				MESSAGE_NO 			           	  AS messageNo           ,
+				ORIGIN_MESSAGE_NO				  as originMessageNo     ,
+				MEMBER_NO           			  AS memberNo            ,
+				TALK_MEMBER_NO					  AS talkMemberNo        ,        
+				TRANSFER_TYPE                     AS tansferType		 ,   /* 코드분류:MA022, S:보낸메시지, R:받은메시지 */
+				MESSAGE_TYPE                      AS messageType		 ,   /* 코드분류:MA023, 01:작곡, 02:편곡, 03:완성곡, 09:일반 */
+				MUSIC_NO						  AS musicNo			 ,	 /* 코드분류(MA023 ,01:작곡, 02:편곡, 03:완성곡)에 따른 단계별 음원번호 */
+				MESSAGE_CONTENT					  AS messageContent		 ,	
+				READ-STATUS						  AS readStatus			 ,	 /* 코드분류:MA024(보낸메시지일 경우 상대방이 읽으면 Y) Y:읽음, N:읽지않음 */
+				REG_DATETIME					  AS regDateTime		 ,
+			FROM 
+				TBL_MESSAGE 
+			WHERE 
+				MEMBER_NO = #{memberNo}
+		]]>
+	</select>
+	
+	<select id = "getMessageByTaklMemberNo" parameterType ="int" resultType = "com.ma2rix.music.model.domain.Message">
+		<![CDATA[
+			SELECT 
+				MESSAGE_NO 			           	  AS messageNo           ,
+				ORIGIN_MESSAGE_NO				  as originMessageNo     ,
+				MEMBER_NO           			  AS memberNo            ,
+				TALK_MEMBER_NO					  AS talkMemberNo        ,        
+				TRANSFER_TYPE                     AS tansferType		 ,   /* 코드분류:MA022, S:보낸메시지, R:받은메시지 */
+				MESSAGE_TYPE                      AS messageType		 ,   /* 코드분류:MA023, 01:작곡, 02:편곡, 03:완성곡, 09:일반 */
+				MUSIC_NO						  AS musicNo			 ,	 /* 코드분류(MA023 ,01:작곡, 02:편곡, 03:완성곡)에 따른 단계별 음원번호 */
+				MESSAGE_CONTENT					  AS messageContent		 ,	
+				READ-STATUS						  AS readStatus			 ,	 /* 코드분류:MA024(보낸메시지일 경우 상대방이 읽으면 Y) Y:읽음, N:읽지않음 */
+				REG_DATETIME					  AS regDateTime		 ,
+			FROM 
+				TBL_MESSAGE 
+			WHERE 
+				TALK_MAMEBER_NO = #{talkMemberNo}
+		]]>
+	</select>
+	
+	<select id = "getMessageByMemberNoAndType" resultType = "com.ma2rix.music.model.domain.Message">
+		<![CDATA[
+			SELECT 
+				MESSAGE_NO 			           	  AS messageNo           ,
+				ORIGIN_MESSAGE_NO				  as originMessageNo     ,
+				MEMBER_NO           			  AS memberNo            ,
+				TALK_MEMBER_NO					  AS talkMemberNo        ,        
+				TRANSFER_TYPE                     AS tansferType		 ,   /* 코드분류:MA022, S:보낸메시지, R:받은메시지 */
+				MESSAGE_TYPE                      AS messageType		 ,   /* 코드분류:MA023, 01:작곡, 02:편곡, 03:완성곡, 09:일반 */
+				MUSIC_NO						  AS musicNo			 ,	 /* 코드분류(MA023 ,01:작곡, 02:편곡, 03:완성곡)에 따른 단계별 음원번호 */
+				MESSAGE_CONTENT					  AS messageContent		 ,	
+				READ-STATUS						  AS readStatus			 ,	 /* 코드분류:MA024(보낸메시지일 경우 상대방이 읽으면 Y) Y:읽음, N:읽지않음 */
+				REG_DATETIME					  AS regDateTime		 ,
+			FROM 
+				TBL_MESSAGE 
+			WHERE 
+				MEMBER_NO = #{memberNo} AND TRANSFER_TYPE = #{transferType}
+		]]>
+	</select>
+	
+	<select id = "getMessageByTalkMemberNoAndType" resultType ="com.ma2rix.music.model.domain.Message">
+		<![CDATA[
+			SELECT 
+				MESSAGE_NO 			           	  AS messageNo           ,
+				ORIGIN_MESSAGE_NO				  as originMessageNo     ,
+				MEMBER_NO           			  AS memberNo            ,
+				TALK_MEMBER_NO					  AS talkMemberNo        ,        
+				TRANSFER_TYPE                     AS tansferType		 ,   /* 코드분류:MA022, S:보낸메시지, R:받은메시지 */
+				MESSAGE_TYPE                      AS messageType		 ,   /* 코드분류:MA023, 01:작곡, 02:편곡, 03:완성곡, 09:일반 */
+				MUSIC_NO						  AS musicNo			 ,	 /* 코드분류(MA023 ,01:작곡, 02:편곡, 03:완성곡)에 따른 단계별 음원번호 */
+				MESSAGE_CONTENT					  AS messageContent		 ,	
+				READ-STATUS						  AS readStatus			 ,	 /* 코드분류:MA024(보낸메시지일 경우 상대방이 읽으면 Y) Y:읽음, N:읽지않음 */
+				REG_DATETIME					  AS regDateTime		 ,
+			FROM 
+				TBL_MESSAGE 
+			WHERE 
+				TALK_MEMBER_NO = #{talkMemberNo} AND TRANSFER_TYPE = #{transferType}
+		]]>
+	</select>
+	
+	<insert id ="insertMessage" parameterType ="com.ma2rix.music.model.domain.Message">
+		<![CDATA[
+			INSERT INTO 
+				TBL_MESSAGE
+			(
+				ORIGIN_MESSAGE_NO           ,
+				MEMBER_NO					,
+				TALK_MEMBER_NO  			,
+				TRANSFER_TYPE				,
+				MESSAGE_TYPE				,
+				MUSIC_NO					,
+				MESSAGE_CONTENT				,
+				READ_STATUS					,
+				REG_DATETIME			
+			)
+			values 
+			(
+				#{originMessageNo}			,
+				#{memberNo}					,
+				#{talkMemberNo}				,
+				#{transferType}				,
+				#{messageType}				,
+				#{music_no}					,
+				#{message_content}			,
+				#{readStatus}				,
+				NOW()
+			)
+		]]>
+		
+		<selectKey keyProperty="messageNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		
+	</insert>
+
+	<update id = "updateMessage" parameterType= "com.ma2rix.music.model.domain.Message">
+		<![CDATA[
+			UPDATE 
+				TBL_MESSAGE
+			SET 
+				ORIGIN_MESSAGE_NO			= #{originMessageNo}		,
+				MEMBER_NO					= #{memberNo}				,
+				TALK_MEMBER_NO				= #{talkMemberNo}			,
+				TRANSFER_TYPE 				= #{transferType}			,
+				MESSAGE_TYPE				= #{messageType}			,
+				MUSIC_NO					= #{musicNo}				,
+				MESSAGE_CONTENT				= #{messageContent}			,
+				READ_STATUS 				= #{readStatus}				
+			where 
+				MESSAGE_NO = #{messageNo}
+		]]>
+	</update>	
+	
+	<update id = "setReadStatus">
+		<![CDATA[
+			UPDATE 
+				TBL_MESSAGE
+			SET 
+				READ_STATUS 				= #{readStatus}				
+			where 
+				MESSAGE_NO = #{messageNo}
+		]]>
+	</update>
+	
+	<delete id = "deleteMessage" parameterType ="int">
+		<![CDATA[
+			DELETE FROM 
+				TBL_MESSAGE
+			where MESSAGE_NO = #{messageNo}
+		]]>
+	</delete>	
+	
+	<delete id = "deleteMessagesByMemberNo" parameterType ="int">
+		<![CDATA[
+			DELETE FROM 
+				TBL_MESSAGE
+			where MEMBER_NO = #{memberNo}
+		]]>
+	</delete>	
+	
+	<delete id = "deleteMessagesByTalkMeberNo" parameterType ="int">
+		<![CDATA[
+			DELETE FROM 
+				TBL_MESSAGE
+			where TALK_MEMBER_NO = #{talkMemberNo}
+		]]>
+	</delete>	
+	
+</mapper>

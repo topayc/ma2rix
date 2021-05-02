@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.SponsorMapper">
+	
+	<select id="getSponBySponsorNo" parameterType="int" resultType="com.ma2rix.music.model.domain.Sponsor">
+		<![CDATA[
+			SELECT
+				SPONSOR_NO					 AS sponsorNo			,
+				MEMBER_NO					 AS memberNo 			,
+				SPONSOR_MEMBER_NO			 AS sponsorMemberNo		,
+				SPONSOR_AMOUNT				 AS sponsorAmount		,
+				REG_DATETIME			     AS regDateTime			,
+			FROM
+				TBL_SPONSOR
+			
+			WHERE
+				SPONSOR_NO  = #{sponsorNo}
+		]]>
+	</select>
+	
+	<select id="getSponByMemberNo" parameterType ="int" resultType="com.ma2rix.music.model.domain.Sponsor">
+		<![CDATA[
+			SELECT
+				SPONSOR_NO					 AS sponsorNo			,
+				MEMBER_NO					 AS memberNo 			,
+				SPONSOR_MEMBER_NO			 AS sponsorMemberNo		,
+				SPONSOR_AMOUNT				 AS sponsorAmount		,
+				REG_DATETIME			     AS regDateTime			,
+				
+			FROM
+				TBL_SPONSOR
+			
+			WHERE
+				MEMBER_NO  = #{memberNo}
+		]]>
+	</select>
+	
+	<insert id="insertSponsor" parameterType ="com.ma2rix.music.model.domain.Sponsor" >
+		<![CDATA[
+			INSERT INTO
+				TBL_sponsor
+			(
+				MEMBER_NO				,
+				SPONSOR_MEMBER_NO		,
+				SPONSOR_AMOUNT			,
+				REG_DATETIME			
+			)
+			VALUES
+			(
+				#{memberNo}				,
+				#{sponsor_member_no}    ,
+				#{sponsor_amount}		,
+				NOW()					
+			)
+		]]>
+
+		<selectKey keyProperty="sponsorNo" resultType="java.lang.Integer"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<delete id="deleteSponsor" parameterType ="int" >
+	<![CDATA[
+			DELETE FROM
+				TBL_SPONSOR
+			WHERE
+				SPONSOR_NO	= #{sponsorNo}
+		]]>
+	</delete>
+	
+
+	<update id="updateSponsor" parameterType ="com.ma2rix.music.model.domain.Sponsor" >
+		<![CDATA[
+			UPDATE
+				TBL_SPONSOR
+			SET
+				MEMBER_NO     		   = #{memberNo}  		        ,
+				SPONSOR_MEMBER_NO	   = #{sponsorMemberNo} 	    ,
+				SPONSOR_AMOUNT		   = #{sponsorAmount}			,
+				
+			WHERE
+				SPONSOR_NO	= #{sponsorNo}
+		]]>
+	</update>
+</mapper>

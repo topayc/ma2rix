@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ma2rix.music.dao.mapper.CountryMapper">
+
+	<cache />
+	
+	<select id="getAllCountries" resultType="com.ma2rix.music.model.domain.Country">
+		SELECT 
+			COUNTRY_NO AS countryNo,
+			COUNTRY_NO2 AS countryNo2,
+			COUNTRY_NO3 AS countryNo3,
+			COUNTRY_NAME AS countryName,
+			COUNTRY_ENAME AS countryEname,
+			USE_STATUS AS useStatus,
+			REG_ADMIN_NO AS regAdminNo,
+			REG_DATETIME AS regDateTime,
+			REG_ADMIN_NO AS regAdminNo,
+			MOD_DATETIME AS modDateTime
+		FROM TBL_COUNTRY
+	</select>
+	
+	<select id="getCountryByCountryNo" parameterType ="int" resultType="com.ma2rix.music.model.domain.Country">
+		SELECT 
+			COUNTRY_NO AS countryNo,
+			COUNTRY_NO2 AS countryNo2,
+			COUNTRY_NO3 AS countryNo3,
+			COUNTRY_NAME AS countryName,
+			COUNTRY_ENAME AS countryEname,
+			USE_STATUS AS useStatus,
+			REG_ADMIN_NO AS regAdminNo,
+			REG_DATETIEM AS regDateTime,
+			REG_ADMIN_NO AS regAdminNo,
+			MOD_DATETIME AS modDateTime
+		FROM TBL_COUNTRY
+		WHERE COUNTRY_NO = #{countryNo}
+	</select>
+	
+	</mapper>
